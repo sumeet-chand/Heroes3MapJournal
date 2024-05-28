@@ -71,7 +71,7 @@ def display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIG
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
     canvas.configure(yscrollcommand=scrollbar.set)
-    canvas.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(-1*(event.delta), "units"))
+    canvas.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(int(-1*(event.delta/120)), "units"))
 
     frame = tk.Frame(canvas)
     canvas.create_window((0, 0), window=frame, anchor=tk.NW)
@@ -89,13 +89,13 @@ def display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIG
     map_name_label.pack(side=tk.BOTTOM, fill=tk.X)
 
     # Slider for adjusting the number of columns
-    cols_slider = tk.Scale(root, from_=1, to=10, orient=tk.HORIZONTAL, label="Columns", command=update_cols, showvalue=False)
+    cols_slider = tk.Scale(root, from_=1, to=10, orient=tk.HORIZONTAL, label="", command=update_cols, showvalue=False)
     cols_slider.pack()
     cols_label = tk.Label(root, text=f"Columns: {COLS}", font=("Arial", 12))
     cols_label.pack(pady=5)
 
     # Slider for adjusting the image size
-    image_size_slider = tk.Scale(root, from_=100, to=1000, orient=tk.HORIZONTAL, label="Image Size", command=update_image_sizes, showvalue=False)
+    image_size_slider = tk.Scale(root, from_=100, to=1000, orient=tk.HORIZONTAL, label="", command=update_image_sizes, showvalue=False)
     image_size_slider.pack()
     image_size_label = tk.Label(root, text=f"Image size: {IMAGE_WIDTH}x{IMAGE_HEIGHT}", font=("Arial", 12))
     image_size_label.pack(pady=5)
