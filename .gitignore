@@ -1,0 +1,4 @@
+# files to exclude in Git repo
+Heroes3OverworldImages
+Heroes3UndergroundImages
+__pycache__
