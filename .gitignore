@@ -1,4 +1,5 @@
 # files to exclude in Git repo
-Heroes3OverworldImages
-Heroes3UndergroundImages
+overworld_map_images
+underground_map_images
+icons
 __pycache__
