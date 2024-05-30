@@ -1,19 +1,28 @@
 
 # Description
 
-Free Heroes of Might and Magic 3 map liker/favouriter/rater. View, and launch Heroes 3 maps
-by image rather then name. Filter and search within images, and directly launch the map
-from this software after linking Heroes 3 launcher. (WIP)
+Free Heroes of Might and Magic 3 map liker/favouriter/rater. You can filter maps by image
+rather then name. Search within images. Sort maps by liked, maps won, maps played, and map rules.
+You can directly play a game by clicking on a map and launching which starts installed Heroes 3
+launcher on your computer to map settings page.
 
 # Roadmap
 
-1. Scrap metadada from official URL and save it
-2. Allow liking images
-3. allow filtering between liked images
-4. have filtering of metadata with buttons, sliders, options, labels
-5. Update readme.md with features
-6. Add option to link to Heroes 3 launcher to bring up in game scenario selection
-7. Create an free iOS, and Android app
+1. Scrap metadada from URL and save it
+2. Like image button ads star icon in top right
+4. Setup filters
+5. Update this readme.md with features/instructions
+6. Maybe include a feature for sorting between campaign maps and custom maps?
+but may require new URL source for data
+7. top left is underground image, click to flip map to view underground. Filter button
+will remove and show underground image side by side with overworld map instead
+8. Button to export liked maps
+9. Button to reset liked images, with confirmation popup
+10. Allow marking map won (with sword icon in bottom left) and filter by them, and remaining
+unwon
+6. Add option to link to Heroes 3 launcher/original client to bring up in game scenario selection
+7. Build with Django + Github action CICD to elastic beanstalk/fargate
+8. Possibly develop a Android/iOS app
 
 # License
 
