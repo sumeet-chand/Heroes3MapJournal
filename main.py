@@ -24,12 +24,11 @@ root.iconphoto(False, icon)
 # load icon for favouriting
 star_texture_path = "assets/star.png"
 
-# create directories if they dont exist
+# create directories if they don't exist
 for base_dir in base_dirs:
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
 
-# triggered on software startup if no image dir's or on rescan button to scrap all images
 def download_images(base_dir, underground_dir, progress_callback=None):
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
@@ -88,7 +87,6 @@ def download_images(base_dir, underground_dir, progress_callback=None):
     if progress_callback:
         progress_callback("Rescanning complete!")
 
-# works with download_images to downlaod the scrapped image
 def download_image(image_url, save_path):
     if os.path.exists(save_path):
         print(f"Image already exists: {save_path}")
@@ -101,7 +99,6 @@ def download_image(image_url, save_path):
         except Exception as e:
             print(f"Failed to download image from {image_url}: {str(e)}")
 
-# software GUI
 def display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIGHT, SPACING_X, SPACING_Y, base_dirs):
     def update_images():
         progress_label.config(text="Rescanning images...")
@@ -155,6 +152,17 @@ def display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIG
         image_size_label.config(text=f"Image size: {IMAGE_WIDTH}x{IMAGE_HEIGHT}")
         load_images()
 
+    # Keyboard input handling
+    def on_key_press(event):
+        if event.keysym == "Up":
+            canvas.yview_scroll(-1, "units")
+        if event.keysym == "Down":
+            canvas.yview_scroll(1, "units")
+        if event.keysym == "Left":
+            canvas.xview_scroll(-1, "units")
+        if event.keysym == "Right":
+            canvas.xview_scroll(1, "units")
+
     canvas = tk.Canvas(root, width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
     canvas.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
@@ -170,6 +178,9 @@ def display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIG
     load_images()
 
     frame.bind("<Configure>", update_scroll_region)
+
+    # Bind all key presses to the on_key_press function
+    canvas.bind_all("<KeyPress>", on_key_press)
 
     # Create control frame
     control_frame = tk.Frame(root)
