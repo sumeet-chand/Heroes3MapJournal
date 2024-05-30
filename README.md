@@ -1,8 +1,9 @@
 
 # Description
 
-Free Heroes of Might and Magic 3 map liker/favouriter/rater. Search and filter maps
-by image from https://heroes.thelazy.net/index.php/List_of_maps and save them to favourites.
+Free Heroes of Might and Magic 3 map liker/favouriter/rater. View, and launch Heroes 3 maps
+by image rather then name. Filter and search within images, and directly launch the map
+from this software after linking Heroes 3 launcher. (WIP)
 
 # Roadmap
 
@@ -20,4 +21,5 @@ This program, developed by Sumeet Singh, is not affiliated with, endorsed by, or
 
 # Credits
 
+https://heroes.thelazy.net for providing map info
 Star icon by paomedia (Arnaud) from icon-icons.com
