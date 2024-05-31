@@ -1,4 +1,8 @@
 # files to exclude in Git repo
 overworld_map_images
 underground_map_images
+<<<<<<< HEAD
+=======
+icons
+>>>>>>> c4320fec50196f0dcb1e54756c20cd28bcaf1dee
 __pycache__

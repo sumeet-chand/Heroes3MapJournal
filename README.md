@@ -3,8 +3,11 @@
 
 Free Heroes of Might and Magic 3 journal, Rate, like and share your favourite maps, record maps
 won and make notes on maps. Search maps by image instead of text.
+<<<<<<< HEAD
 
 v1.1.4
+=======
+>>>>>>> c4320fec50196f0dcb1e54756c20cd28bcaf1dee
 
 # Roadmap
 
@@ -27,8 +30,12 @@ will remove and show underground image side by side with overworld map instead
 
 # License
 
+<<<<<<< HEAD
 All media, and trademark is copyrighted to the Heroes 3 owners. I strongly encourage you to purchase
 the retail version from the developers themselves.
+=======
+All media, and trademark is copyrighted to the Heroes 3 owners.
+>>>>>>> c4320fec50196f0dcb1e54756c20cd28bcaf1dee
 This software and code is provided for non-commercial use and may be modified at the user's discretion.
 
 # Credits

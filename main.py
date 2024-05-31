@@ -1,6 +1,10 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+<<<<<<< HEAD
 from typing import List, Dict
+=======
+from bs4 import BeautifulSoup
+>>>>>>> c4320fec50196f0dcb1e54756c20cd28bcaf1dee
 import os
 import urllib.parse
 import requests
@@ -14,7 +18,11 @@ IMAGE_WIDTH = 300
 IMAGE_HEIGHT = 300
 SPACING_X = 20
 SPACING_Y = 20
+<<<<<<< HEAD
 base_dirs = ["overworld_map_images", "underground_map_images"]
+=======
+base_dirs = ["overworld_map_images", "underground_map_images"] # folder names to hold map images
+>>>>>>> c4320fec50196f0dcb1e54756c20cd28bcaf1dee
 root = tk.Tk()
 root.title("Heroes 3 Map Liker")
 image_paths = [
@@ -59,12 +67,27 @@ image_paths = [
     "icons/z_backpack.gif",
 ]
 
+<<<<<<< HEAD
 def set_window_icon():
     """
     Set the icon for the Tkinter GUI window.
 
     Opens an image file specified by `icon_path`, resizes it to (32, 32) if necessary, 
     and sets it as the window icon.
+=======
+# LOAD IMAGES
+
+# software window icon
+icon_path = Image.open("assets/beholder.png")  # Open the image
+icon_path = icon_path.resize((32, 32))  # Resize the image if required
+icon = ImageTk.PhotoImage(icon_path)  # Convert the image to a PhotoImage
+root.iconphoto(False, icon) # set as software window icon
+
+# liked maps
+star_image = Image.open("assets/star.png")
+star_image = star_image.resize((32, 32))
+star_photo = ImageTk.PhotoImage(star_image)
+>>>>>>> c4320fec50196f0dcb1e54756c20cd28bcaf1dee
 
     Args:
         icon_path (str): The file path to the icon image.
@@ -141,6 +164,50 @@ def create_directories_if_missing():
     for base_dir in base_dirs:
         if not os.path.exists(base_dir):
             os.makedirs(base_dir)
+
+def download_icons():
+    # Define the URL
+    base_url = "https://www.heroesmaps.org/"
+
+    # Send a GET request to the URL
+    response = requests.get(base_url, verify=False)  # Disable SSL verification
+
+    # Parse the HTML content
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Find all image tags
+    img_tags = soup.find_all('img')
+
+    # Create a directory to save images
+    os.makedirs('icons', exist_ok=True)
+
+    # Download and save each image
+    for idx, img in enumerate(img_tags):
+        img_url = img['src']
+        full_img_url = base_url + img_url  # Append the base URL to the image URL
+        
+        # Extract the filename from the URL
+        filename = os.path.basename(urllib.parse.urlparse(full_img_url).path)
+        
+        img_path = os.path.join('icons', filename)
+        
+        # Check if the image already exists
+        if os.path.exists(img_path):
+            print(f"Image already exists: {filename}. Skipping...")
+            continue
+        
+        # Download the image
+        try:
+            img_response = requests.get(full_img_url, verify=False)  # Disable SSL verification
+            img_response.raise_for_status()  # Raise an error if the response status code is not OK
+            with open(img_path, 'wb') as f:
+                f.write(img_response.content)
+            print(f"Downloaded: {filename}")
+        except Exception as e:
+            print(f"Error downloading {full_img_url}: {e}")
+    
+    # Notify when all images have been downloaded
+    print("All images downloaded successfully.")
 
 def download_images(base_dir, underground_dir, progress_callback=None):
     if not os.path.exists(base_dir):
@@ -342,11 +409,22 @@ def display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIG
     sort_label = tk.Label(control_frame, text="Sort", font=("Arial", 16))
     sort_label.grid(row=3, column=0, columnspan=3, padx=5, pady=5, sticky="w")
 
+<<<<<<< HEAD
     liked_frame = tk.Frame(control_frame) # Create frame hold checkbox, text and star image, in same column
     liked_frame.grid(row=3, column=1, padx=5, pady=5, sticky="w")
     liked_checkbox = tk.Checkbutton(liked_frame, text="Liked", command=load_images) # Create the liked checkbox
     liked_checkbox.pack(side=tk.LEFT)
     star_label = tk.Label(liked_frame, image=star_photo) # Create a label for the star image
+=======
+    # Create a frame to hold both the checkbox (with text) and the star image together in same column
+    liked_frame = tk.Frame(control_frame)
+    liked_frame.grid(row=3, column=1, padx=5, pady=5, sticky="w")
+    # Create the liked checkbox
+    liked_checkbox = tk.Checkbutton(liked_frame, text="Liked", command=load_images)
+    liked_checkbox.pack(side=tk.LEFT)
+    # Create a label for the star image
+    star_label = tk.Label(liked_frame, image=star_photo)
+>>>>>>> c4320fec50196f0dcb1e54756c20cd28bcaf1dee
     star_label.image = star_photo  # Ensure the image is retained
     star_label.pack(side=tk.LEFT)
 
@@ -355,6 +433,7 @@ def display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIG
 
     name_ascending_checkbox = tk.Checkbutton(control_frame, text="Ascending", command=load_images)
     name_ascending_checkbox.grid(row=3, column=3, padx=5, pady=5, sticky="w") # sticky "w" = make the text stick to checkbox
+<<<<<<< HEAD
 
     # filter row 4 - expansion
     sort_label = tk.Label(control_frame, text="Expansion", font=("Arial", 16))
@@ -367,6 +446,15 @@ def display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIG
     roe_label = tk.Label(restoration_frame, image=v_roe_photo)
     roe_label.image = v_roe_photo
     roe_label.pack(side=tk.LEFT)
+=======
+
+    # filter row 4 - expansion
+    sort_label = tk.Label(control_frame, text="Expansion", font=("Arial", 16))
+    sort_label.grid(row=4, column=0, columnspan=3, padx=5, pady=5, sticky="w")
+
+    restoration_checkbox = tk.Checkbutton(control_frame, text="Restoration of Erathia", command=load_images)
+    restoration_checkbox.grid(row=4, column=1, padx=5, pady=5, sticky="w") # sticky "w" = make the text stick to checkbox
+>>>>>>> c4320fec50196f0dcb1e54756c20cd28bcaf1dee
 
     armageddons_checkbox = tk.Checkbutton(control_frame, text="Armageddons Blade", command=load_images)
     armageddons_checkbox.grid(row=4, column=2, padx=5, pady=5, sticky="w") # sticky "w" = make the text stick to checkbox
@@ -516,8 +604,13 @@ def display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIG
     root.grid_rowconfigure(0, weight=1)
     root.grid_rowconfigure(1, weight=0)
 
+<<<<<<< HEAD
 set_window_icon()
 create_directories_if_missing()
+=======
+download_icons() # download icons, possibly make as button?
+
+>>>>>>> c4320fec50196f0dcb1e54756c20cd28bcaf1dee
 display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIGHT, SPACING_X, SPACING_Y, base_dirs)
 
 root.mainloop()
