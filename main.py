@@ -19,45 +19,48 @@ root = tk.Tk()
 root.title("Heroes 3 Map Liker")
 image_paths: list[str] = [
     "assets/star.png",
-    "icons/dif_easy.gif",
-    "icons/dif_expert.gif",
-    "icons/dif_hard.gif",
-    "icons/dif_impossible.gif",
-    "icons/dif_normal.gif",
-    "icons/ls_hero.gif",
-    "icons/ls_standard.gif",
-    "icons/ls_timeexpires.gif",
-    "icons/ls_town.gif",
-    "icons/m_h3ccmped.png",
-    "icons/m_h3maped.png",
-    "icons/sz0_s.gif",
-    "icons/sz1_m.gif",
-    "icons/sz2_l.gif",
-    "icons/sz3_xl.gif",
-    "icons/sz4_h.gif",
-    "icons/sz5_xh.gif",
-    "icons/sz6_g.gif",
-    "icons/v_ab.gif",
-    "icons/v_hota.gif",
-    "icons/v_roe.gif",
-    "icons/v_sod.gif",
-    "icons/v_wog.gif",
-    "icons/vc_allmonsters.gif",
-    "icons/vc_artifact.gif",
-    "icons/vc_buildcity.gif",
-    "icons/vc_buildgrail.gif",
-    "icons/vc_capturecity.gif",
-    "icons/vc_creatures.gif",
-    "icons/vc_flagdwellings.gif",
-    "icons/vc_flagmines.gif",
-    "icons/vc_hero.gif",
-    "icons/vc_monster.gif",
-    "icons/vc_resources.gif",
-    "icons/vc_standard.gif",
-    "icons/vc_survivetime.gif",
-    "icons/vc_transport.gif",
-    "icons/z_backpack.gif",
+    "assets/page.png",
+    "assets/view_earth.png",
+    "assets/dif_easy.gif",
+    "assets/dif_expert.gif",
+    "assets/dif_hard.gif",
+    "assets/dif_impossible.gif",
+    "assets/dif_normal.gif",
+    "assets/ls_hero.gif",
+    "assets/ls_standard.gif",
+    "assets/ls_timeexpires.gif",
+    "assets/ls_town.gif",
+    "assets/m_h3ccmped.png",
+    "assets/m_h3maped.png",
+    "assets/sz0_s.gif",
+    "assets/sz1_m.gif",
+    "assets/sz2_l.gif",
+    "assets/sz3_xl.gif",
+    "assets/sz4_h.gif",
+    "assets/sz5_xh.gif",
+    "assets/sz6_g.gif",
+    "assets/v_ab.gif",
+    "assets/v_hota.gif",
+    "assets/v_roe.gif",
+    "assets/v_sod.gif",
+    "assets/v_wog.gif",
+    "assets/vc_allmonsters.gif",
+    "assets/vc_artifact.gif",
+    "assets/vc_buildcity.gif",
+    "assets/vc_buildgrail.gif",
+    "assets/vc_capturecity.gif",
+    "assets/vc_creatures.gif",
+    "assets/vc_flagdwellings.gif",
+    "assets/vc_flagmines.gif",
+    "assets/vc_hero.gif",
+    "assets/vc_monster.gif",
+    "assets/vc_resources.gif",
+    "assets/vc_standard.gif",
+    "assets/vc_survivetime.gif",
+    "assets/vc_transport.gif",
+    "assets/z_backpack.gif",
 ]
+
 
 def set_window_icon():
     """
@@ -72,7 +75,7 @@ def set_window_icon():
     Returns:
         None
     """
-    icon_path: str = Image.open("assets/beholder.png")  # Open the image
+    icon_path: str = Image.open("assets/view_earth.png")  # Open the image
     icon_path = icon_path.resize((32, 32))  # Resize the image if required
     icon: ImageTk.PhotoImage = ImageTk.PhotoImage(icon_path)  # Convert the image to a PhotoImage
     root.iconphoto(False, icon) # set as software window icon
@@ -89,14 +92,19 @@ def load_asset_images(image_paths: List[str]) -> Dict[str, ImageTk.PhotoImage]:
     """
     photo_images = {}
     for path in image_paths:
-        filename = os.path.splitext(os.path.basename(path))[0]  # Extract filename without extension
-        image = Image.open(path)  # Load the image
-        image = image.resize((32, 32))  # Resize the image
-        photo_images[filename] = ImageTk.PhotoImage(image)  # Load image and store it in the dictionary
+        try:
+            filename = os.path.splitext(os.path.basename(path))[0]  # Extract filename without extension
+            image = Image.open(path)  # Load the image
+            image = image.resize((32, 32))  # Resize the image
+            photo_images[filename] = ImageTk.PhotoImage(image)  # Load image and store it in the dictionary
+        except Exception as e:
+            print(f"Error loading image {path}: {e}")
     return photo_images
 
 photo_images: Dict[str, ImageTk.PhotoImage] = load_asset_images(image_paths)
 star_photo: ImageTk.PhotoImage = photo_images["star"]
+page_photo: ImageTk.PhotoImage = photo_images["page"]
+view_earth_photo: ImageTk.PhotoImage = photo_images["view_earth"]
 easy_photo: ImageTk.PhotoImage = photo_images["dif_easy"]
 expert_photo: ImageTk.PhotoImage = photo_images["dif_expert"]
 hard_photo: ImageTk.PhotoImage = photo_images["dif_hard"]
@@ -262,6 +270,40 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     Returns:
         None
     """
+
+    def set_background_image():
+        """
+        set background image of GUI
+
+        Returns:
+            None
+        """
+        # Create a label for the background image and place it behind other widgets
+        background_label = tk.Label(root, image=page_photo)
+        background_label.place(relwidth=1, relheight=1)
+        # Ensure the background label stays behind other widgets
+        background_label.lower()
+    set_background_image()
+
+    def toggle_control_panel():
+        # show_image = tk.PhotoImage(file="path_to_show_image.png")
+        # hide_image = tk.PhotoImage(file="path_to_hide_image.png")
+        """
+        Button to hide or show control panel triggers this function
+
+        Returns:
+            None
+        
+        """
+        if control_frame.winfo_viewable():
+            control_frame.grid_remove()
+            toggle_button.config(text="Show Settings")
+            # toggle_button.config(text="Show Control Panel", image=show_image, compound="left")
+        else:
+            control_frame.grid()
+            toggle_button.config(text="Hide Settings")
+            # toggle_button.config(text="Hide Control Panel", image=hide_image, compound="left")
+    
     def update_images():
         """
         rescan images button progress label
@@ -436,24 +478,28 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     control_frame = tk.Frame(root)
     control_frame.grid(row=1, column=0, columnspan=7, sticky="ew")
 
-    # row 0 - Like map button
+    # row 0 - control panel visibility button
+    toggle_button = tk.Button(root, text="Hide Control Panel", command=toggle_control_panel)
+    toggle_button.grid(row=0, column=0, sticky="ne", padx=5, pady=5)
+
+    # row 1 - Like map button
     like_button = tk.Button(control_frame, text="like", command=like_image)
-    like_button.grid(row=0, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    like_button.grid(row=1, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
 
-    # row 1 - Play map button
+    # row 2 - Play map button
     play_button = tk.Button(control_frame, text="Play map", command=play_map)
-    play_button.grid(row=1, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    play_button.grid(row=2, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
 
-    # row 2 - Rescan Images button
+    # row 3 - Rescan Images button
     load_button = tk.Button(control_frame, text="Rescan Images", command=update_images)
-    load_button.grid(row=2, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    load_button.grid(row=3, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
 
-    # row 3 - sort
-    sort_label = tk.Label(control_frame, text="Filter", font=("Arial", 16))
-    sort_label.grid(row=3, column=0, columnspan=3, padx=5, pady=5, sticky="w")
+    # row 4 - sort
+    sort_label = tk.Label(control_frame, text="Filter", font=("Arial", 12))
+    sort_label.grid(row=4, column=0, columnspan=3, padx=5, pady=5, sticky="w")
 
     liked_frame = tk.Frame(control_frame) # Create frame hold checkbox, text and star image, in same column
-    liked_frame.grid(row=3, column=1, padx=5, pady=5, sticky="w")
+    liked_frame.grid(row=4, column=1, padx=5, pady=5, sticky="w")
     liked_checkbox = tk.Checkbutton(liked_frame, text="Liked", command=load_images) # Create the liked checkbox
     liked_checkbox.pack(side=tk.LEFT)
     star_label = tk.Label(liked_frame, image=star_photo) # Create a label for the star image
@@ -461,17 +507,17 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     star_label.pack(side=tk.LEFT)
 
     name_descending_checkbox = tk.Checkbutton(control_frame, text="Descending", command=load_images)
-    name_descending_checkbox.grid(row=3, column=2, padx=5, pady=5, sticky="w")
+    name_descending_checkbox.grid(row=4, column=2, padx=5, pady=5, sticky="w")
 
     name_ascending_checkbox = tk.Checkbutton(control_frame, text="Ascending", command=load_images)
-    name_ascending_checkbox.grid(row=3, column=3, padx=5, pady=5, sticky="w")
+    name_ascending_checkbox.grid(row=4, column=3, padx=5, pady=5, sticky="w")
 
-    # filter row 4 - expansion
-    sort_label = tk.Label(control_frame, text="Expansion", font=("Arial", 16))
-    sort_label.grid(row=4, column=0, columnspan=3, padx=5, pady=5, sticky="w")
+    # filter row 5 - expansion
+    sort_label = tk.Label(control_frame, text="Expansion", font=("Arial", 12))
+    sort_label.grid(row=5, column=0, columnspan=3, padx=5, pady=5, sticky="w")
 
     restoration_frame = tk.Frame(control_frame)
-    restoration_frame.grid(row=4, column=1, padx=5, pady=5, sticky="w")
+    restoration_frame.grid(row=5, column=1, padx=5, pady=5, sticky="w")
     restoration_checkbox = tk.Checkbutton(restoration_frame, text="Restoration of Erathia", command=load_images)
     restoration_checkbox.pack(side=tk.LEFT)
     roe_label = tk.Label(restoration_frame, image=v_roe_photo)
@@ -479,144 +525,144 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     roe_label.pack(side=tk.LEFT)
 
     armageddons_checkbox = tk.Checkbutton(control_frame, text="Armageddons Blade", command=load_images)
-    armageddons_checkbox.grid(row=4, column=2, padx=5, pady=5, sticky="w")
+    armageddons_checkbox.grid(row=5, column=2, padx=5, pady=5, sticky="w")
 
     shadow_checkbox = tk.Checkbutton(control_frame, text="Shadow of Death", command=load_images)
-    shadow_checkbox.grid(row=4, column=3, padx=5, pady=5, sticky="w")
+    shadow_checkbox.grid(row=5, column=3, padx=5, pady=5, sticky="w")
 
     hota_checkbox = tk.Checkbutton(control_frame, text="Horn of the Abyss", command=load_images)
-    hota_checkbox.grid(row=4, column=4, padx=5, pady=5, sticky="w")
+    hota_checkbox.grid(row=5, column=4, padx=5, pady=5, sticky="w")
 
-    # row 5 - map sizes
-    sort_label = tk.Label(control_frame, text="Map size", font=("Arial", 16))
-    sort_label.grid(row=5, column=0, columnspan=3, padx=5, pady=5, sticky="w")
-
-    small_maps_checkbox = tk.Checkbutton(control_frame, text="S", command=load_images)
-    small_maps_checkbox.grid(row=5, column=1, padx=5, pady=5, sticky="w")
-
-    medium_maps_checkbox = tk.Checkbutton(control_frame, text="M", command=load_images)
-    medium_maps_checkbox.grid(row=5, column=2, padx=5, pady=5, sticky="w")
-
-    large_maps_checkbox = tk.Checkbutton(control_frame, text="L", command=load_images)
-    large_maps_checkbox.grid(row=5, column=3, padx=5, pady=5, sticky="w")
-
-    extra_large_maps_checkbox = tk.Checkbutton(control_frame, text="XL", command=load_images)
-    extra_large_maps_checkbox.grid(row=5, column=4, padx=5, pady=5, sticky="w")
-
-    gigantic_maps_checkbox = tk.Checkbutton(control_frame, text="G", command=load_images)
-    gigantic_maps_checkbox.grid(row=5, column=5, padx=5, pady=5, sticky="w")
-
-    underground_maps_checkbox = tk.Checkbutton(control_frame, text="Underground", command=load_images)
-    underground_maps_checkbox.grid(row=5, column=6, padx=5, pady=5, sticky="w")
-
-    # row 6 - difficulty
-    sort_label = tk.Label(control_frame, text="Difficulty", font=("Arial", 16))
+    # row 6 - map sizes
+    sort_label = tk.Label(control_frame, text="Map size", font=("Arial", 12))
     sort_label.grid(row=6, column=0, columnspan=3, padx=5, pady=5, sticky="w")
 
-    easy_checkbox = tk.Checkbutton(control_frame, text="Easy", command=load_images)
-    easy_checkbox.grid(row=6, column=1, padx=5, pady=5, sticky="w")
+    small_maps_checkbox = tk.Checkbutton(control_frame, text="S", command=load_images)
+    small_maps_checkbox.grid(row=6, column=1, padx=5, pady=5, sticky="w")
 
-    medium_maps_checkbox = tk.Checkbutton(control_frame, text="Medium", command=load_images)
+    medium_maps_checkbox = tk.Checkbutton(control_frame, text="M", command=load_images)
     medium_maps_checkbox.grid(row=6, column=2, padx=5, pady=5, sticky="w")
 
-    hard_maps_checkbox = tk.Checkbutton(control_frame, text="Hard", command=load_images)
-    hard_maps_checkbox.grid(row=6, column=3, padx=5, pady=5, sticky="w")
+    large_maps_checkbox = tk.Checkbutton(control_frame, text="L", command=load_images)
+    large_maps_checkbox.grid(row=6, column=3, padx=5, pady=5, sticky="w")
 
-    expert_maps_checkbox = tk.Checkbutton(control_frame, text="Expert", command=load_images)
-    expert_maps_checkbox.grid(row=6, column=4, padx=5, pady=5, sticky="w")
+    extra_large_maps_checkbox = tk.Checkbutton(control_frame, text="XL", command=load_images)
+    extra_large_maps_checkbox.grid(row=6, column=4, padx=5, pady=5, sticky="w")
 
-    impossible_maps_checkbox = tk.Checkbutton(control_frame, text="Impossible", command=load_images)
-    impossible_maps_checkbox.grid(row=6, column=5, padx=5, pady=5, sticky="w")
+    gigantic_maps_checkbox = tk.Checkbutton(control_frame, text="G", command=load_images)
+    gigantic_maps_checkbox.grid(row=6, column=5, padx=5, pady=5, sticky="w")
 
-    # row 7 - win conditions
-    sort_label = tk.Label(control_frame, text="Win conditions", font=("Arial", 16))
+    underground_maps_checkbox = tk.Checkbutton(control_frame, text="Underground", command=load_images)
+    underground_maps_checkbox.grid(row=6, column=6, padx=5, pady=5, sticky="w")
+
+    # row 7 - difficulty
+    sort_label = tk.Label(control_frame, text="Difficulty", font=("Arial", 12))
     sort_label.grid(row=7, column=0, columnspan=3, padx=5, pady=5, sticky="w")
 
+    easy_checkbox = tk.Checkbutton(control_frame, text="Easy", command=load_images)
+    easy_checkbox.grid(row=7, column=1, padx=5, pady=5, sticky="w")
+
+    medium_maps_checkbox = tk.Checkbutton(control_frame, text="Medium", command=load_images)
+    medium_maps_checkbox.grid(row=7, column=2, padx=5, pady=5, sticky="w")
+
+    hard_maps_checkbox = tk.Checkbutton(control_frame, text="Hard", command=load_images)
+    hard_maps_checkbox.grid(row=7, column=3, padx=5, pady=5, sticky="w")
+
+    expert_maps_checkbox = tk.Checkbutton(control_frame, text="Expert", command=load_images)
+    expert_maps_checkbox.grid(row=7, column=4, padx=5, pady=5, sticky="w")
+
+    impossible_maps_checkbox = tk.Checkbutton(control_frame, text="Impossible", command=load_images)
+    impossible_maps_checkbox.grid(row=7, column=5, padx=5, pady=5, sticky="w")
+
+    # row 8 - win conditions
+    sort_label = tk.Label(control_frame, text="Win conditions", font=("Arial", 12))
+    sort_label.grid(row=8, column=0, columnspan=3, padx=5, pady=5, sticky="w")
+
     acquire_artifact_checkbox = tk.Checkbutton(control_frame, text="Acquire specific Artifact", command=load_images)
-    acquire_artifact_checkbox.grid(row=7, column=1, padx=5, pady=5, sticky="w")
+    acquire_artifact_checkbox.grid(row=8, column=1, padx=5, pady=5, sticky="w")
 
     defeat_monster_checkbox = tk.Checkbutton(control_frame, text="Defeat specific Monster", command=load_images)
-    defeat_monster_checkbox.grid(row=7, column=2, padx=5, pady=5, sticky="w")
+    defeat_monster_checkbox.grid(row=8, column=2, padx=5, pady=5, sticky="w")
 
     survive_checkbox = tk.Checkbutton(control_frame, text="Survive certain time", command=load_images)
-    survive_checkbox.grid(row=7, column=3, padx=5, pady=5, sticky="w")
+    survive_checkbox.grid(row=8, column=3, padx=5, pady=5, sticky="w")
 
     standard_checkbox = tk.Checkbutton(control_frame, text="Standard", command=load_images)
-    standard_checkbox.grid(row=7, column=4, padx=5, pady=5, sticky="w")
+    standard_checkbox.grid(row=8, column=4, padx=5, pady=5, sticky="w")
 
     build_grail_checkbox = tk.Checkbutton(control_frame, text="Build Grail structure", command=load_images)
-    build_grail_checkbox.grid(row=7, column=5, padx=5, pady=5, sticky="w")
+    build_grail_checkbox.grid(row=8, column=5, padx=5, pady=5, sticky="w")
 
     eliminate_monsters_checkbox = tk.Checkbutton(control_frame, text="Eliminiate all Monsters", command=load_images)
-    eliminate_monsters_checkbox.grid(row=7, column=6, padx=5, pady=5, sticky="w")
+    eliminate_monsters_checkbox.grid(row=8, column=6, padx=5, pady=5, sticky="w")
 
-    # row 8 - win conditions continued
+    # row 9 - win conditions continued
     transport_artifact_checkbox = tk.Checkbutton(control_frame, text="Transport specific Artifact", command=load_images)
-    transport_artifact_checkbox.grid(row=8, column=0, padx=5, pady=5, sticky="w")
+    transport_artifact_checkbox.grid(row=9, column=0, padx=5, pady=5, sticky="w")
 
     accumuulate_creatures_checkbox = tk.Checkbutton(control_frame, text="Accumulate Creatures", command=load_images)
-    accumuulate_creatures_checkbox.grid(row=8, column=1, padx=5, pady=5, sticky="w")
+    accumuulate_creatures_checkbox.grid(row=9, column=1, padx=5, pady=5, sticky="w")
 
     capture_town_checkbox = tk.Checkbutton(control_frame, text="Capture specific Town", command=load_images)
-    capture_town_checkbox.grid(row=8, column=2, padx=5, pady=5, sticky="w")
+    capture_town_checkbox.grid(row=9, column=2, padx=5, pady=5, sticky="w")
 
     flag_dwellings_checkbox = tk.Checkbutton(control_frame, text="Flag all creature Dwellings", command=load_images)
-    flag_dwellings_checkbox.grid(row=8, column=3, padx=5, pady=5, sticky="w")
+    flag_dwellings_checkbox.grid(row=9, column=3, padx=5, pady=5, sticky="w")
 
     upgrade_town_checkbox = tk.Checkbutton(control_frame, text="Upgrade specific Town", command=load_images)
-    upgrade_town_checkbox.grid(row=8, column=4, padx=5, pady=5, sticky="w")
+    upgrade_town_checkbox.grid(row=9, column=4, padx=5, pady=5, sticky="w")
 
     accumuulate_resources_checkbox = tk.Checkbutton(control_frame, text="Accumulate resources", command=load_images)
-    accumuulate_resources_checkbox.grid(row=8, column=5, padx=5, pady=5, sticky="w")
+    accumuulate_resources_checkbox.grid(row=9, column=5, padx=5, pady=5, sticky="w")
 
-    # row 8 - win conditions continued
+    # row 10 - win conditions continued
     defeat_hero_checkbox = tk.Checkbutton(control_frame, text="Defeat specific Hero", command=load_images)
-    defeat_hero_checkbox.grid(row=9, column=0, padx=5, pady=5, sticky="w")
+    defeat_hero_checkbox.grid(row=10, column=0, padx=5, pady=5, sticky="w")
 
     flag_mines_checkbox = tk.Checkbutton(control_frame, text="Flag all mines", command=load_images)
-    flag_mines_checkbox.grid(row=9, column=1, padx=5, pady=5, sticky="w")
+    flag_mines_checkbox.grid(row=10, column=1, padx=5, pady=5, sticky="w")
 
-    # row 10 - lose conditions
-    sort_label = tk.Label(control_frame, text="Lose conditions", font=("Arial", 16))
-    sort_label.grid(row=10, column=0, columnspan=3, padx=5, pady=5, sticky="w")
+    # row 11 - lose conditions
+    sort_label = tk.Label(control_frame, text="Lose conditions", font=("Arial", 12))
+    sort_label.grid(row=11, column=0, columnspan=3, padx=5, pady=5, sticky="w")
 
     no_conditions_checkbox = tk.Checkbutton(control_frame, text="None", command=load_images)
-    no_conditions_checkbox.grid(row=10, column=1, padx=5, pady=5, sticky="w")
+    no_conditions_checkbox.grid(row=11, column=1, padx=5, pady=5, sticky="w")
 
     lose_hero_checkbox = tk.Checkbutton(control_frame, text="Lose specific Hero", command=load_images)
-    lose_hero_checkbox.grid(row=10, column=2, padx=5, pady=5, sticky="w")
+    lose_hero_checkbox.grid(row=11, column=2, padx=5, pady=5, sticky="w")
 
     lose_town_checkbox = tk.Checkbutton(control_frame, text="Lose specific Town", command=load_images)
-    lose_town_checkbox.grid(row=10, column=3, padx=5, pady=5, sticky="w")
+    lose_town_checkbox.grid(row=11, column=3, padx=5, pady=5, sticky="w")
 
     time_expire_checkbox = tk.Checkbutton(control_frame, text="Time Expires", command=load_images)
-    time_expire_checkbox.grid(row=10, column=4, padx=5, pady=5, sticky="w")
+    time_expire_checkbox.grid(row=11, column=4, padx=5, pady=5, sticky="w")
 
-    # row 11 - 12 - Slider for adjusting the number of columns
+    # row 12 - 13 - Slider for adjusting the number of columns
     cols_slider = tk.Scale(control_frame, from_=1, to=10, orient=tk.HORIZONTAL, label="", command=update_cols, showvalue=False)
-    cols_slider.grid(row=11, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    cols_slider.grid(row=12, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
     cols_label = tk.Label(control_frame, text=f"Columns: {COLS}", font=("Arial", 12))
-    cols_label.grid(row=12, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    cols_label.grid(row=13, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
 
-    # row 13 - 14 - Slider for adjusting the image size
+    # row 14 - 15 - Slider for adjusting the image size
     image_size_slider = tk.Scale(control_frame, from_=100, to=1000, orient=tk.HORIZONTAL, label="", command=update_image_sizes, showvalue=False)
-    image_size_slider.grid(row=13, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    image_size_slider.grid(row=14, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
     image_size_label = tk.Label(control_frame, text=f"Image size: {IMAGE_WIDTH}x{IMAGE_HEIGHT}", font=("Arial", 12))
-    image_size_label.grid(row=14, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    image_size_label.grid(row=15, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
 
-    # row 15 - Reset settings button
+    # row 16 - Reset settings button
     reset_button = tk.Button(control_frame, text="Reset settings", command=reset_settings)
-    reset_button.grid(row=15, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    reset_button.grid(row=16, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
 
-    # row 16 - Progress label
+    # row 17 - Progress label
     global progress_label
     progress_label = tk.Label(control_frame, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W, font=("Arial", 12))
-    progress_label.grid(row=16, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    progress_label.grid(row=17, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
 
-    # row 17 - Map name label
+    # row 18 - Map name label
     global map_name_label
     map_name_label = tk.Label(control_frame, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W, font=("Arial", 14))
-    map_name_label.grid(row=17, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
+    map_name_label.grid(row=18, column=0, padx=5, pady=5, sticky="ew", columnspan=7)
 
     # Configure column resizing behavior for the control frame
     # if there are 7 checkboxes across 7 columns in a single row

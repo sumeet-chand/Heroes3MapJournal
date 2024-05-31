@@ -6,22 +6,19 @@ won and make notes on maps. Search maps by image instead of text.
 
 # Roadmap
 
-1. Add new map sizes
+0. Fix set background image
+1. Setup CI/CD Pipeline to build using pyInstaller binaries for all os, then test binary on all os
+by build a test for it
 2. Scrap metadada from URL and save it
 3. Like image button ads star icon in top right
 4. Setup filters
 5. Update this readme.md with features/instructions
-6. Maybe include a feature for sorting between campaign maps and custom maps?
-but may require new URL source for data
-7. top left is underground image, click to flip map to view underground. Filter button
-will remove and show underground image side by side with overworld map instead
-8. Button to export liked maps
-9. Button to reset liked images, with confirmation popup
-10. Allow marking map won (with sword icon in bottom left) and filter by them, and remaining unwon
-11. Add option to link to Heroes 3 launcher/original client to bring up in game scenario selection
-12. Allow filtering maps in game
-13. Build with Django + Github action CICD to elastic beanstalk/fargate
-14. Possibly develop a Android/iOS app
+6. Maybe include a feature for sorting between campaign maps
+7. Button to list liked maps for which can be highlighted to copy outside app
+8. Button to reset liked images, with confirmation popup
+9. Allow marking map won (with sword icon in bottom left) and filter by them, and remaining unwon
+10. Add option to link to Heroes 3 launcher/original client to bring up in game scenario selection
+11. Android/iOS app
 
 # License
 
