@@ -4,8 +4,6 @@
 Free Heroes of Might and Magic 3 journal, Rate, like and share your favourite maps, record maps
 won and make notes on maps. Search maps by image instead of text.
 
-v1.1.4
-
 # Roadmap
 
 1. Add new map sizes
