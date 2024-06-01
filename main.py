@@ -14,12 +14,17 @@ IMAGE_WIDTH: int = 300
 IMAGE_HEIGHT: int = 300
 SPACING_X: int = 20
 SPACING_Y: int = 20
-base_dirs: list[str] = ["overworld_map_images", "underground_map_images"]
+base_dirs: list[str] = ["overworld_map_images", "subterarean_map_images"]
 root = tk.Tk()
 root.title("Heroes 3 Map Liker")
 image_paths: list[str] = [
+    "assets/name_descending.png",
+    "assets/name_ascending.png",
+    "assets/subterarean.png",
     "assets/star.png",
     "assets/page.png",
+    "assets/book_open.png",
+    "assets/book_closed.png",
     "assets/view_earth.png",
     "assets/dif_easy.gif",
     "assets/dif_expert.gif",
@@ -61,7 +66,6 @@ image_paths: list[str] = [
     "assets/z_backpack.gif",
 ]
 
-
 def set_window_icon():
     """
     Set the icon for the Tkinter GUI window.
@@ -102,8 +106,13 @@ def load_asset_images(image_paths: List[str]) -> Dict[str, ImageTk.PhotoImage]:
     return photo_images
 
 photo_images: Dict[str, ImageTk.PhotoImage] = load_asset_images(image_paths)
-star_photo: ImageTk.PhotoImage = photo_images["star"]
+name_descending_photo: ImageTk.PhotoImage = photo_images["name_descending"]
+name_ascending_photo: ImageTk.PhotoImage = photo_images["name_ascending"]
+subterarean_photo: ImageTk.PhotoImage = photo_images["subterarean"]
+liked_photo: ImageTk.PhotoImage = photo_images["star"]
 page_photo: ImageTk.PhotoImage = photo_images["page"]
+book_open_photo: ImageTk.PhotoImage = photo_images["book_open"]
+book_closed_photo: ImageTk.PhotoImage = photo_images["book_closed"]
 view_earth_photo: ImageTk.PhotoImage = photo_images["view_earth"]
 easy_photo: ImageTk.PhotoImage = photo_images["dif_easy"]
 expert_photo: ImageTk.PhotoImage = photo_images["dif_expert"]
@@ -155,7 +164,7 @@ def create_directories_if_missing():
         if not os.path.exists(base_dir):
             os.makedirs(base_dir)
 
-def download_images(base_dir: str, underground_dir: str, progress_callback=None):
+def download_images(base_dir: str, subterarean_dir: str, progress_callback=None):
     """
     Scrap and download all map images, can be targetted to any new repo holding
     Heroes 3 map data/images. So that if any site goes down, this can be tweaked
@@ -164,7 +173,7 @@ def download_images(base_dir: str, underground_dir: str, progress_callback=None)
     Args
     
         base_dir (str): folder path for overworld images
-        underground_dir (str): folder path for overworld images
+        subterarean_dir (str): folder path for overworld images
         progress_callback - for GUI widget label to callback progress data on how many maps scanned/remaining
 
     Returns:
@@ -172,8 +181,8 @@ def download_images(base_dir: str, underground_dir: str, progress_callback=None)
     """
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
-    if not os.path.exists(underground_dir):
-        os.makedirs(underground_dir)
+    if not os.path.exists(subterarean_dir):
+        os.makedirs(subterarean_dir)
 
     url: str = "https://heroes.thelazy.net/index.php/List_of_maps"
     response = requests.get(url)
@@ -206,7 +215,7 @@ def download_images(base_dir: str, underground_dir: str, progress_callback=None)
         img_tags = re.findall(r'<img.+?src="([^"]+)"', image_response.text)
         if img_tags:
             for img_tag in img_tags:
-                if "underground" not in img_tag:
+                if "subterarean" not in img_tag:
                     match: str = re.search(r'/images/(.*?)map_auto.png', img_tag)
                     if match:
                         download_link: str = "https://heroes.thelazy.net/images/" + match.group(1) + "map_auto.png"
@@ -218,7 +227,7 @@ def download_images(base_dir: str, underground_dir: str, progress_callback=None)
                     if match:
                         download_link: str = "https://heroes.thelazy.net/images/" + match.group(1) + "map_auto.png"
                         download_link = download_link.replace("/thumb", "")
-                        filename: str = os.path.join(underground_dir, os.path.basename(download_link))
+                        filename: str = os.path.join(subterarean_dir, os.path.basename(download_link))
                         download_image(download_link, filename)
         else:
             print("No download link found.")
@@ -286,8 +295,6 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     set_background_image()
 
     def toggle_control_panel():
-        # show_image = tk.PhotoImage(file="path_to_show_image.png")
-        # hide_image = tk.PhotoImage(file="path_to_hide_image.png")
         """
         Button to hide or show control panel triggers this function
 
@@ -297,12 +304,10 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
         """
         if control_frame.winfo_viewable():
             control_frame.grid_remove()
-            toggle_button.config(text="Show Settings")
-            # toggle_button.config(text="Show Control Panel", image=show_image, compound="left")
+            toggle_button.config(text="Show settings", image=book_open_photo, compound="left")
         else:
             control_frame.grid()
-            toggle_button.config(text="Hide Settings")
-            # toggle_button.config(text="Hide Control Panel", image=hide_image, compound="left")
+            toggle_button.config(text="Hide settings", image=book_closed_photo, compound="left")
     
     def update_images():
         """
@@ -502,58 +507,129 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     liked_frame.grid(row=4, column=1, padx=5, pady=5, sticky="w")
     liked_checkbox = tk.Checkbutton(liked_frame, text="Liked", command=load_images) # Create the liked checkbox
     liked_checkbox.pack(side=tk.LEFT)
-    star_label = tk.Label(liked_frame, image=star_photo) # Create a label for the star image
-    star_label.image = star_photo  # Ensure the image is retained
-    star_label.pack(side=tk.LEFT)
+    liked_label = tk.Label(liked_frame, image=liked_photo) # Create a label for the star image
+    liked_label.image = liked_photo  # Ensure the image is retained
+    liked_label.pack(side=tk.LEFT)
 
-    name_descending_checkbox = tk.Checkbutton(control_frame, text="Descending", command=load_images)
-    name_descending_checkbox.grid(row=4, column=2, padx=5, pady=5, sticky="w")
+    name_descending_frame = tk.Frame(control_frame)
+    name_descending_frame.grid(row=4, column=2, padx=5, pady=5, sticky="w")
+    name_descending_checkbox = tk.Checkbutton(name_descending_frame, text="Name descending", command=load_images)
+    name_descending_checkbox.pack(side=tk.LEFT)
+    name_descending_label = tk.Label(name_descending_frame, image=name_descending_photo)
+    name_descending_label.image = name_descending_photo
+    name_descending_label.pack(side=tk.LEFT)
 
-    name_ascending_checkbox = tk.Checkbutton(control_frame, text="Ascending", command=load_images)
-    name_ascending_checkbox.grid(row=4, column=3, padx=5, pady=5, sticky="w")
+    name_ascending_frame = tk.Frame(control_frame)
+    name_ascending_frame.grid(row=4, column=3, padx=5, pady=5, sticky="w")
+    name_ascending_checkbox = tk.Checkbutton(name_ascending_frame, text="Name ascending", command=load_images)
+    name_ascending_checkbox.pack(side=tk.LEFT)
+    name_ascending_label = tk.Label(name_ascending_frame, image=name_ascending_photo)
+    name_ascending_label.image = name_ascending_photo
+    name_ascending_label.pack(side=tk.LEFT)
+
+    subterarean_frame = tk.Frame(control_frame)
+    subterarean_frame.grid(row=4, column=4, padx=5, pady=5, sticky="w")
+    subterarean_checkbox = tk.Checkbutton(subterarean_frame, text="subterarean", command=load_images)
+    subterarean_checkbox.pack(side=tk.LEFT)
+    subterarean_label = tk.Label(subterarean_frame, image=subterarean_photo)
+    subterarean_label.image = subterarean_photo
+    subterarean_label.pack(side=tk.LEFT)
 
     # filter row 5 - expansion
     sort_label = tk.Label(control_frame, text="Expansion", font=("Arial", 12))
     sort_label.grid(row=5, column=0, columnspan=3, padx=5, pady=5, sticky="w")
 
-    restoration_frame = tk.Frame(control_frame)
-    restoration_frame.grid(row=5, column=1, padx=5, pady=5, sticky="w")
-    restoration_checkbox = tk.Checkbutton(restoration_frame, text="Restoration of Erathia", command=load_images)
-    restoration_checkbox.pack(side=tk.LEFT)
-    roe_label = tk.Label(restoration_frame, image=v_roe_photo)
+    roe_frame = tk.Frame(control_frame)
+    roe_frame.grid(row=5, column=1, padx=5, pady=5, sticky="w")
+    roe_checkbox = tk.Checkbutton(roe_frame, text="Restoration of Erathia", command=load_images)
+    roe_checkbox.pack(side=tk.LEFT)
+    roe_label = tk.Label(roe_frame, image=v_roe_photo)
     roe_label.image = v_roe_photo
     roe_label.pack(side=tk.LEFT)
 
-    armageddons_checkbox = tk.Checkbutton(control_frame, text="Armageddons Blade", command=load_images)
-    armageddons_checkbox.grid(row=5, column=2, padx=5, pady=5, sticky="w")
+    ab_frame = tk.Frame(control_frame)
+    ab_frame.grid(row=5, column=2, padx=5, pady=5, sticky="w")
+    ab_checkbox = tk.Checkbutton(ab_frame, text="Armageddons Blade", command=load_images)
+    ab_checkbox.pack(side=tk.LEFT)
+    ab_label = tk.Label(ab_frame, image=v_ab_photo)
+    ab_label.image = v_roe_photo
+    ab_label.pack(side=tk.LEFT)
 
-    shadow_checkbox = tk.Checkbutton(control_frame, text="Shadow of Death", command=load_images)
-    shadow_checkbox.grid(row=5, column=3, padx=5, pady=5, sticky="w")
+    sod_frame = tk.Frame(control_frame)
+    sod_frame.grid(row=5, column=3, padx=5, pady=5, sticky="w")
+    sod_checkbox = tk.Checkbutton(sod_frame, text="Shadow of Death", command=load_images)
+    sod_checkbox.pack(side=tk.LEFT)
+    sod_label = tk.Label(sod_frame, image=v_sod_photo)
+    sod_label.image = v_roe_photo
+    sod_label.pack(side=tk.LEFT)
 
-    hota_checkbox = tk.Checkbutton(control_frame, text="Horn of the Abyss", command=load_images)
-    hota_checkbox.grid(row=5, column=4, padx=5, pady=5, sticky="w")
+    hota_frame = tk.Frame(control_frame)
+    hota_frame.grid(row=5, column=4, padx=5, pady=5, sticky="w")
+    hota_checkbox = tk.Checkbutton(hota_frame, text="Horn of the Abyss", command=load_images)
+    hota_checkbox.pack(side=tk.LEFT)
+    hota_label = tk.Label(hota_frame, image=v_hota_photo)
+    hota_label.image = v_roe_photo
+    hota_label.pack(side=tk.LEFT)
 
     # row 6 - map sizes
     sort_label = tk.Label(control_frame, text="Map size", font=("Arial", 12))
     sort_label.grid(row=6, column=0, columnspan=3, padx=5, pady=5, sticky="w")
 
-    small_maps_checkbox = tk.Checkbutton(control_frame, text="S", command=load_images)
-    small_maps_checkbox.grid(row=6, column=1, padx=5, pady=5, sticky="w")
+    small_map_frame = tk.Frame(control_frame)
+    small_map_frame.grid(row=6, column=1, padx=5, pady=5, sticky="w")
+    small_mapcheckbox = tk.Checkbutton(small_map_frame, text="S", command=load_images)
+    small_mapcheckbox.pack(side=tk.LEFT)
+    small_map_label = tk.Label(small_map_frame, image=sz0_s_photo)
+    small_map_label.image = sz0_s_photo
+    small_map_label.pack(side=tk.LEFT)
 
-    medium_maps_checkbox = tk.Checkbutton(control_frame, text="M", command=load_images)
-    medium_maps_checkbox.grid(row=6, column=2, padx=5, pady=5, sticky="w")
+    medium_map_frame = tk.Frame(control_frame)
+    medium_map_frame.grid(row=6, column=2, padx=5, pady=5, sticky="w")
+    medium_mapcheckbox = tk.Checkbutton(medium_map_frame, text="M", command=load_images)
+    medium_mapcheckbox.pack(side=tk.LEFT)
+    medium_map_label = tk.Label(medium_map_frame, image=sz1_m_photo)
+    medium_map_label.image = sz1_m_photo
+    medium_map_label.pack(side=tk.LEFT)
 
-    large_maps_checkbox = tk.Checkbutton(control_frame, text="L", command=load_images)
-    large_maps_checkbox.grid(row=6, column=3, padx=5, pady=5, sticky="w")
+    large_map_frame = tk.Frame(control_frame)
+    large_map_frame.grid(row=6, column=3, padx=5, pady=5, sticky="w")
+    large_mapcheckbox = tk.Checkbutton(large_map_frame, text="L", command=load_images)
+    large_mapcheckbox.pack(side=tk.LEFT)
+    large_map_label = tk.Label(large_map_frame, image=sz2_l_photo)
+    large_map_label.image = sz2_l_photo
+    large_map_label.pack(side=tk.LEFT)
 
-    extra_large_maps_checkbox = tk.Checkbutton(control_frame, text="XL", command=load_images)
-    extra_large_maps_checkbox.grid(row=6, column=4, padx=5, pady=5, sticky="w")
+    extra_large_map_frame = tk.Frame(control_frame)
+    extra_large_map_frame.grid(row=6, column=4, padx=5, pady=5, sticky="w")
+    extra_large_mapcheckbox = tk.Checkbutton(extra_large_map_frame, text="XL", command=load_images)
+    extra_large_mapcheckbox.pack(side=tk.LEFT)
+    extra_large_map_label = tk.Label(extra_large_map_frame, image=sz3_xl_photo)
+    extra_large_map_label.image = sz3_xl_photo
+    extra_large_map_label.pack(side=tk.LEFT)
 
-    gigantic_maps_checkbox = tk.Checkbutton(control_frame, text="G", command=load_images)
-    gigantic_maps_checkbox.grid(row=6, column=5, padx=5, pady=5, sticky="w")
+    huge_map_frame = tk.Frame(control_frame)
+    huge_map_frame.grid(row=6, column=5, padx=5, pady=5, sticky="w")
+    huge_mapcheckbox = tk.Checkbutton(huge_map_frame, text="H", command=load_images)
+    huge_mapcheckbox.pack(side=tk.LEFT)
+    huge_map_label = tk.Label(huge_map_frame, image=sz4_h_photo)
+    huge_map_label.image = sz4_h_photo
+    huge_map_label.pack(side=tk.LEFT)
 
-    underground_maps_checkbox = tk.Checkbutton(control_frame, text="Underground", command=load_images)
-    underground_maps_checkbox.grid(row=6, column=6, padx=5, pady=5, sticky="w")
+    extra_huge_map_frame = tk.Frame(control_frame)
+    extra_huge_map_frame.grid(row=6, column=6, padx=5, pady=5, sticky="w")
+    extra_huge_mapcheckbox = tk.Checkbutton(extra_huge_map_frame, text="XH", command=load_images)
+    extra_huge_mapcheckbox.pack(side=tk.LEFT)
+    extra_huge_map_label = tk.Label(extra_huge_map_frame, image=sz5_xh_photo)
+    extra_huge_map_label.image = sz5_xh_photo
+    extra_huge_map_label.pack(side=tk.LEFT)
+
+    giant_map_frame = tk.Frame(control_frame)
+    giant_map_frame.grid(row=6, column=7, padx=5, pady=5, sticky="w")
+    giant_mapcheckbox = tk.Checkbutton(giant_map_frame, text="G", command=load_images)
+    giant_mapcheckbox.pack(side=tk.LEFT)
+    giant_map_label = tk.Label(giant_map_frame, image=sz6_g_photo)
+    giant_map_label.image = sz6_g_photo
+    giant_map_label.pack(side=tk.LEFT)
 
     # row 7 - difficulty
     sort_label = tk.Label(control_frame, text="Difficulty", font=("Arial", 12))
