@@ -14,13 +14,13 @@ IMAGE_WIDTH: int = 300
 IMAGE_HEIGHT: int = 300
 SPACING_X: int = 20
 SPACING_Y: int = 20
-base_dirs: list[str] = ["overworld_map_images", "subterarean_map_images"]
+base_dirs: list[str] = ["overworld_map_images", "subterranean_map_images"]
 root = tk.Tk()
 root.title("Heroes 3 Map Liker")
 image_paths: list[str] = [
     "assets/name_descending.png",
     "assets/name_ascending.png",
-    "assets/subterarean.png",
+    "assets/subterranean.png",
     "assets/star.png",
     "assets/page.png",
     "assets/book_open.png",
@@ -108,7 +108,7 @@ def load_asset_images(image_paths: List[str]) -> Dict[str, ImageTk.PhotoImage]:
 photo_images: Dict[str, ImageTk.PhotoImage] = load_asset_images(image_paths)
 name_descending_photo: ImageTk.PhotoImage = photo_images["name_descending"]
 name_ascending_photo: ImageTk.PhotoImage = photo_images["name_ascending"]
-subterarean_photo: ImageTk.PhotoImage = photo_images["subterarean"]
+subterranean_photo: ImageTk.PhotoImage = photo_images["subterranean"]
 liked_photo: ImageTk.PhotoImage = photo_images["star"]
 page_photo: ImageTk.PhotoImage = photo_images["page"]
 book_open_photo: ImageTk.PhotoImage = photo_images["book_open"]
@@ -164,7 +164,7 @@ def create_directories_if_missing():
         if not os.path.exists(base_dir):
             os.makedirs(base_dir)
 
-def download_images(base_dir: str, subterarean_dir: str, progress_callback=None):
+def download_images(base_dir: str, subterranean_dir: str, progress_callback=None):
     """
     Scrap and download all map images, can be targetted to any new repo holding
     Heroes 3 map data/images. So that if any site goes down, this can be tweaked
@@ -173,7 +173,7 @@ def download_images(base_dir: str, subterarean_dir: str, progress_callback=None)
     Args
     
         base_dir (str): folder path for overworld images
-        subterarean_dir (str): folder path for overworld images
+        subterranean_dir (str): folder path for overworld images
         progress_callback - for GUI widget label to callback progress data on how many maps scanned/remaining
 
     Returns:
@@ -181,8 +181,8 @@ def download_images(base_dir: str, subterarean_dir: str, progress_callback=None)
     """
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
-    if not os.path.exists(subterarean_dir):
-        os.makedirs(subterarean_dir)
+    if not os.path.exists(subterranean_dir):
+        os.makedirs(subterranean_dir)
 
     url: str = "https://heroes.thelazy.net/index.php/List_of_maps"
     response = requests.get(url)
@@ -215,7 +215,7 @@ def download_images(base_dir: str, subterarean_dir: str, progress_callback=None)
         img_tags = re.findall(r'<img.+?src="([^"]+)"', image_response.text)
         if img_tags:
             for img_tag in img_tags:
-                if "subterarean" not in img_tag:
+                if "subterranean" not in img_tag:
                     match: str = re.search(r'/images/(.*?)map_auto.png', img_tag)
                     if match:
                         download_link: str = "https://heroes.thelazy.net/images/" + match.group(1) + "map_auto.png"
@@ -227,7 +227,7 @@ def download_images(base_dir: str, subterarean_dir: str, progress_callback=None)
                     if match:
                         download_link: str = "https://heroes.thelazy.net/images/" + match.group(1) + "map_auto.png"
                         download_link = download_link.replace("/thumb", "")
-                        filename: str = os.path.join(subterarean_dir, os.path.basename(download_link))
+                        filename: str = os.path.join(subterranean_dir, os.path.basename(download_link))
                         download_image(download_link, filename)
         else:
             print("No download link found.")
@@ -304,10 +304,10 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
         """
         if control_frame.winfo_viewable():
             control_frame.grid_remove()
-            toggle_button.config(text="Show settings", image=book_open_photo, compound="left")
+            toggle_button.config(text="Show settings", image=book_open_photo, compound="right")
         else:
             control_frame.grid()
-            toggle_button.config(text="Hide settings", image=book_closed_photo, compound="left")
+            toggle_button.config(text="Hide settings", image=book_closed_photo, compound="right")
     
     def update_images():
         """
@@ -484,7 +484,7 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     control_frame.grid(row=1, column=0, columnspan=7, sticky="ew")
 
     # row 0 - control panel visibility button
-    toggle_button = tk.Button(root, text="Hide Control Panel", command=toggle_control_panel)
+    toggle_button = tk.Button(root, text="Hide Settings", image=book_closed_photo, compound="right", command=toggle_control_panel)
     toggle_button.grid(row=0, column=0, sticky="ne", padx=5, pady=5)
 
     # row 1 - Like map button
@@ -527,13 +527,13 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     name_ascending_label.image = name_ascending_photo
     name_ascending_label.pack(side=tk.LEFT)
 
-    subterarean_frame = tk.Frame(control_frame)
-    subterarean_frame.grid(row=4, column=4, padx=5, pady=5, sticky="w")
-    subterarean_checkbox = tk.Checkbutton(subterarean_frame, text="subterarean", command=load_images)
-    subterarean_checkbox.pack(side=tk.LEFT)
-    subterarean_label = tk.Label(subterarean_frame, image=subterarean_photo)
-    subterarean_label.image = subterarean_photo
-    subterarean_label.pack(side=tk.LEFT)
+    subterranean_frame = tk.Frame(control_frame)
+    subterranean_frame.grid(row=4, column=4, padx=5, pady=5, sticky="w")
+    subterranean_checkbox = tk.Checkbutton(subterranean_frame, text="subterranean", command=load_images)
+    subterranean_checkbox.pack(side=tk.LEFT)
+    subterranean_label = tk.Label(subterranean_frame, image=subterranean_photo)
+    subterranean_label.image = subterranean_photo
+    subterranean_label.pack(side=tk.LEFT)
 
     # filter row 5 - expansion
     sort_label = tk.Label(control_frame, text="Expansion", font=("Arial", 12))
