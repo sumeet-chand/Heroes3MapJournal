@@ -6,15 +6,24 @@ Alternative name: Heroes 3 Map Journal
 Free Heroes of Might and Magic 3 journal, Rate, like and share your favourite maps, record maps
 won and make notes on maps. Search maps by image instead of text.
 
+If you see a missing feature please suggest by contacting author: Sumeet Singh @ sumeet-singh.com/contactus
+
+
+# Features
+
+* Search maps by images, as well as names with different scenario filters
+* Like, filter and export favourite maps
+* Record won, and unplayed maps and add journal annotations and notes 
+* Launch your Heroes of Might and Magic game launcher directly to the map picked for a new way to play
+
+
 # Roadmap
 
 0. Fix set background image
-1. Setup CI/CD Pipeline to build using pyInstaller binaries for all os, then test binary on all os
-by build a test for it
+1. Setup CI/CD
 2. Scrap metadada from URL and save it
 3. Like image button adds star icon in top right
 4. Setup filters
-5. Update this readme.md with features/instructions
 6. Maybe include a feature for sorting between campaign maps
 7. Button to list liked maps for which can be highlighted to copy outside app
 8. Button to reset liked images, with confirmation popup
@@ -23,11 +32,13 @@ by build a test for it
 11. Android/iOS app
 12. Expand to Heroes 1, 2 and 4
 
+
 # License
 
 All media, and trademark is copyrighted to the Heroes 3 owners. I strongly encourage you to purchase
 the retail version from the developers themselves.
 This software and code is provided for non-commercial use and may be modified at the user's discretion.
+
 
 # Credits
 

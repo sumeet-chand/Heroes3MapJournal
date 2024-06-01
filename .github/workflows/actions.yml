@@ -1,0 +1,50 @@
+name: Build and deploy GUI app
+
+on:
+  push:
+    branches:
+      - Heroes3MapLiker
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install Pillow requests
+
+    - name: Build for Windows
+      run: |
+        pyinstaller --onefile --windowed main.py
+        mv dist/Heroes3MapLiker.exe dist/Heroes3MapLiker_windows.exe
+
+    - name: Build for Linux
+      run: |
+        pyinstaller --onefile --windowed main.py
+        mv dist/Heroes3MapLiker dist/Heroes3MapLiker_linux
+
+    - name: Build for macOS
+      run: |
+        pyinstaller --onefile --windowed main.py
+        mv dist/Heroes3MapLiker dist/Heroes3MapLiker_macos
+
+    - name: Run Tests
+      run: python tests.py
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: builds
+        path: |
+          dist/Heroes3MapLiker_windows.exe
+          dist/Heroes3MapLiker_linux
+          dist/Heroes3MapLiker_macos
