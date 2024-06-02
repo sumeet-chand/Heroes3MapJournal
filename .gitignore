@@ -1,4 +1,5 @@
 # files to exclude in Git repo
-overworld_map_images
-subterarean_map_images
 __pycache__
+.mypy_cache
+overworld_map_images
+subterranean_map_images
