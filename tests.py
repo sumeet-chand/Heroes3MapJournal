@@ -16,9 +16,9 @@ class TestGUI(unittest.TestCase):
             Return code. 0 = test passed. 1 = test failed.
         """
         # Adjusted file paths for GitHub Actions workflow
-        windows_binary_path = 'Heroes3MapLiker.exe'
-        macos_binary_path = 'Heroes3MapLiker'
-        linux_binary_path = 'Heroes3MapLiker'
+        windows_binary_path = 'Heroes3MapLiker/Heroes3MapLiker.exe'
+        macos_binary_path = 'Heroes3MapLiker/Heroes3MapLiker'
+        linux_binary_path = 'Heroes3MapLiker/Heroes3MapLiker'
 
         # Run binary and capture output
         windows_completed_process = subprocess.run([windows_binary_path], capture_output=True, text=True)
@@ -30,7 +30,7 @@ class TestGUI(unittest.TestCase):
         self.assertEqual(macos_completed_process.returncode, 0)
         self.assertEqual(linux_completed_process.returncode, 0)
 
-        # # Check if the output contains expected results
+        # # Check if the output contains expected string - Future consideration
         # expected_output = "Expected output string"
         # self.assertIn(expected_output, windows_completed_process.stdout)
         # self.assertIn(expected_output, linux_completed_process.stdout)
