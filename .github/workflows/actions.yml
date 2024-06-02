@@ -20,7 +20,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install Pillow requests pyinstaller pyautogui
+        pip install Pillow requests pyinstaller
 
     - name: Build for Windows
       run: |
@@ -43,7 +43,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install Pillow requests pyinstaller pyautogui
+        pip install Pillow requests pyinstaller
 
     - name: Build for macOS
       run: |
@@ -66,9 +66,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y xvfb  # As github linux platform uses headless requires lib xvfb to quit process
-        pip install Pillow requests pyinstaller pyautogui
+        pip install Pillow requests pyinstaller xvfbwrapper
 
     - name: Build for Linux
       run: |
@@ -76,4 +74,4 @@ jobs:
 
     - name: Run Linux Tests
       run: |
-        xvfb-run --auto-servernum python tests.py  # Use xvfb to run the tests
+        xvfb-run --auto-servernum python tests.py
