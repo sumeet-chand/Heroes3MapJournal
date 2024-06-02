@@ -2,7 +2,13 @@ import unittest
 import subprocess
 import sys
 import time
+import os
 import pyautogui
+
+# Check if running in a headless environment e.g. running in Githubs CI/CD headless platform
+running_headless = False
+if 'DISPLAY' not in os.environ:
+    running_headless = True
 
 class TestGUI(unittest.TestCase):
 
@@ -59,7 +65,4 @@ class TestGUI(unittest.TestCase):
         self.assertEqual(process.returncode, 0)
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestGUI)
-    runner = unittest.TextTestRunner()
-    result = runner.run(suite)
-    sys.exit(not result.wasSuccessful())
+    unittest.main()
