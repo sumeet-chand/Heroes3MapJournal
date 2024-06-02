@@ -1,4 +1,4 @@
-name: Build and deploy GUI app
+name: Build and test GUI app
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,27 +24,15 @@ jobs:
 
     - name: Build for Windows
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico Heroes3MapLiker.py
-        mv dist/Heroes3MapLiker.exe Heroes3MapLiker.exe
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=dist Heroes3MapLiker.py
 
     - name: Build for macOS
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico Heroes3MapLiker.py
-        mv dist/Heroes3MapLiker Heroes3MapLiker
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=dist Heroes3MapLiker.py
 
     - name: Build for Linux
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico Heroes3MapLiker.py
-        mv dist/Heroes3MapLiker_linux Heroes3MapLiker_linux
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=dist Heroes3MapLiker.py
 
     - name: Run Tests
       run: python tests.py
-
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: builds
-        path: |
-          Heroes3MapLiker.exe
-          Heroes3MapLiker
-          Heroes3MapLiker_linux
