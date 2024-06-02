@@ -1,5 +1,12 @@
 # files to exclude in Git repo
+
+# python build files
 __pycache__
 .mypy_cache
+build
+dist
+
+
+# user files
 overworld_map_images
 subterranean_map_images
