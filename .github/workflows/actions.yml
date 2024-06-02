@@ -1,4 +1,4 @@
-name: Build and test GUI app
+name: Build and test software
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  build_and_test:
-    runs-on: ubuntu-latest
+  build_and_test_windows:
+    runs-on: windows-latest  # Use a Windows runner
 
     steps:
     - name: Checkout repository
@@ -26,13 +26,51 @@ jobs:
       run: |
         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
 
+    - name: Run Windows Tests
+      run: python tests.py
+
+  build_and_test_macos:
+    runs-on: macos-latest  # Use a macOS runner
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install Pillow requests pyinstaller
+
     - name: Build for macOS
       run: |
         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
+
+    - name: Run macOS Tests
+      run: python tests.py
+
+  build_and_test_linux:
+    runs-on: ubuntu-latest  # Use an Ubuntu runner
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install Pillow requests pyinstaller
 
     - name: Build for Linux
       run: |
         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
 
-    - name: Run Tests
+    - name: Run Linux Tests
       run: python tests.py
