@@ -24,15 +24,15 @@ jobs:
 
     - name: Build for Windows
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=dist Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
 
     - name: Build for macOS
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=dist Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
 
     - name: Build for Linux
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=dist Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
 
     - name: Run Tests
       run: python tests.py
