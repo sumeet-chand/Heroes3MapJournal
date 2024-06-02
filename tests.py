@@ -1,40 +1,65 @@
 import unittest
 import subprocess
+import sys
+import time
+import pyautogui
 
 class TestGUI(unittest.TestCase):
 
     def test_binary_execution(self):
         """
         CI/CD workflow triggers on pushing this repo to upstream on Github.
-        Github actions will build binaries for Windows, MacOS, and Linux
-        using command: pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
+        Github actions will build binaries for Windows, MacOS, and Linux and run below command
+        
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
+        
         (explanation: create one binary which wont start terminal on binary start e.g. like -mwindows, and embed the icon file
-        and place binary in dist folder online so that below tests.py relative filepaths can find them.
-        This test then runs to determine if each binary for each OS closes with exit code 0
+        and place binary in dist folder online so that below tests.py relative filepaths can find them)
+
+        You can test locally by running command above to generate bin in root ./ then run this test to confirm working.
+        
+        This test then runs to determine if each binary for each OS closes with exit code 0.
+
+        Because program runs in a loop awaiting a Tk window event close, the pyautogui library will simulate
+        manually closing app to see results of test.
+
+        As CI/CD pipeline runs jobs to build all OS, it will test to see which binary exists then run that executable test
 
         Returns:
             Return code. 0 = test passed. 1 = test failed.
         """
-        # Adjusted file paths for GitHub Actions workflow
-        windows_binary_path = 'Heroes3MapLiker.exe'
-        macos_binary_path = 'Heroes3MapLiker'
-        linux_binary_path = 'Heroes3MapLiker'
+        if sys.platform == 'win32':  # Check if running on Windows
+            binary_path = 'Heroes3MapLiker.exe'
+        elif sys.platform == 'darwin':  # Check if running on macOS
+            binary_path = './Heroes3MapLiker'
+        elif sys.platform.startswith('linux'):  # Check if running on Linux
+            binary_path = './Heroes3MapLiker'
 
-        # Run binary and capture output
-        windows_completed_process = subprocess.run([windows_binary_path], capture_output=True, text=True)
-        macos_completed_process = subprocess.run([macos_binary_path], capture_output=True, text=True)
-        linux_completed_process = subprocess.run([linux_binary_path], capture_output=True, text=True)
-        
+        # Start the binary
+        process = subprocess.Popen([binary_path])
+
+        # Wait a few seconds to ensure the GUI is fully loaded
+        time.sleep(5)
+
+        # Close the GUI application using pyautogui
+        if sys.platform == 'win32':
+            pyautogui.hotkey('alt', 'f4')  # On Windows
+        elif sys.platform == 'darwin':
+            pyautogui.hotkey('command', 'q')  # On macOS
+        elif sys.platform.startswith('linux'):
+            pyautogui.hotkey('alt', 'f4')  # On Linux (may vary depending on the window manager)
+
+        # Wait for the process to terminate
+        try:
+            process.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            process.kill()
+
         # Check if the binary executed successfully (exit code 0)
-        self.assertEqual(windows_completed_process.returncode, 0)
-        self.assertEqual(macos_completed_process.returncode, 0)
-        self.assertEqual(linux_completed_process.returncode, 0)
-
-        # # Check if the output contains expected string - Future consideration
-        # expected_output = "Expected output string"
-        # self.assertIn(expected_output, windows_completed_process.stdout)
-        # self.assertIn(expected_output, linux_completed_process.stdout)
-        # self.assertIn(expected_output, macos_completed_process.stdout)
+        self.assertEqual(process.returncode, 0)
 
 if __name__ == '__main__':
-    unittest.main()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestGUI)
+    runner = unittest.TextTestRunner()
+    result = runner.run(suite)
+    sys.exit(not result.wasSuccessful())
