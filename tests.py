@@ -38,8 +38,11 @@ class TestGUI(unittest.TestCase):
             binary_path = 'Heroes3MapLiker.exe'
         elif sys.platform == 'darwin':  # Check if running on macOS
             binary_path = './Heroes3MapLiker'
-        elif sys.platform.startswith('linux'):  # Check if running on Linux
+        elif sys.platform.startswith('linux') and not running_headless:  # Check if running on Linux and not headless
             binary_path = './Heroes3MapLiker'
+        else:
+            self.skipTest("Skipping test in headless environment")
+            return
 
         # Start the binary
         process = subprocess.Popen([binary_path])
