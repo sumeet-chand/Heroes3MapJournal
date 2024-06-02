@@ -34,15 +34,16 @@ class TestGUI(unittest.TestCase):
         Returns:
             Return code. 0 = test passed. 1 = test failed.
         """
-        if sys.platform == 'win32':  # Check if running on Windows
+        if sys.platform == 'win32' and not running_headless:  # Check if running on Windows
             binary_path = 'Heroes3MapLiker.exe'
-        elif sys.platform == 'darwin':  # Check if running on macOS
+        elif sys.platform == 'darwin' and not running_headless:  # Check if running on macOS
             binary_path = './Heroes3MapLiker'
         elif sys.platform.startswith('linux') and not running_headless:  # Check if running on Linux and not headless
             binary_path = './Heroes3MapLiker'
         else:
             self.skipTest("Skipping test in headless environment")
             return
+
 
         # Start the binary
         process = subprocess.Popen([binary_path])
