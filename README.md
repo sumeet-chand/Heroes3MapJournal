@@ -20,7 +20,7 @@ If you see a missing feature please suggest by contacting author Sumeet Singh @ 
 There are 2 options to build
 
 1. locally by running command with python installed: ```pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py```
-2. If making changes to this codebase and pushing  a Github CI/CD pipeline ```.github\workflows\actions.yml``` pushes changes, builds binaries, tests using ./tests.py, if passes commits and finally: (TO BE INCLUDED CREATES RELEASES)
+2. If making changes to this codebase and pushing  a Github CI/CD pipeline ```.github\workflows\actions.yml``` pushes changes, builds binaries, tests using ./tests.py, if all pass, commits, TBD: CREATES RELEASES
 
 
 # Roadmap
@@ -51,8 +51,6 @@ This software and code is provided for non-commercial use and may be modified at
 
 # Credits
 
-https://heroes.thelazy.net for providing map info
-
-Star icon by paomedia (Arnaud) from icon-icons.com
-
-name_ascending/descending.png by Dave Gandy from icon-icons.com
+* https://heroes.thelazy.net for providing map info
+* Star icon by paomedia (Arnaud) from icon-icons.com
+* name_ascending/descending.png by Dave Gandy from icon-icons.com

@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_and_test_windows:
-    runs-on: windows-latest  # Use a Windows runner
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
@@ -30,7 +30,8 @@ jobs:
       run: python tests.py
 
   build_and_test_macos:
-    runs-on: macos-latest  # Use a macOS runner
+    needs: build_and_test_windows  # Wait for Windows job to complete successfully
+    runs-on: macos-latest
 
     steps:
     - name: Checkout repository
@@ -53,7 +54,8 @@ jobs:
       run: python tests.py
 
   build_and_test_linux:
-    runs-on: ubuntu-latest  # As of June 2024 Github actions uses platform: Linux-6.5.0-1021-azure-x86_64
+    needs: build_and_test_macos  # Wait for macOS job to complete successfully
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
@@ -75,3 +77,11 @@ jobs:
 
     - name: Run Linux Tests
       run: python tests.py
+
+    - name: Commit changes # if all tests pass then push changes
+      if: ${{ job.status == 'success' }}
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -am "CI: Automated commit after successful tests"
+        git push
