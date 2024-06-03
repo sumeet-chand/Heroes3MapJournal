@@ -3,7 +3,6 @@ import subprocess
 import sys
 import time
 import os
-import pyautogui
 
 # Check if running in a headless environment e.g. running in Githubs CI/CD headless platform
 running_headless = False
@@ -14,6 +13,10 @@ if sys.platform.startswith('linux'):
     display_manager_status = subprocess.run(['systemctl', 'status', 'display-manager'], capture_output=True, text=True)
     if 'Active: active' not in display_manager_status.stdout:
         running_headless = True
+
+# pyautogui requires a os.DISPLAY variable, so if it's a headless display it wont set that variable hence it will break script
+if not running_headless:
+    import pyautogui
 
 class TestGUI(unittest.TestCase):
 
