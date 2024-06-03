@@ -15,12 +15,12 @@ If you see a missing feature please suggest by contacting author Sumeet Singh @ 
 3. Your ready to start using filters to find maps, like them, mark as won, enter notes, and more
 
 
-# Building
+# Modding | Building | Testing
 
 There are 2 options to build
 
-1. locally by running command with python installed: ```pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py```
-2. If making changes to this codebase and pushing  a Github CI/CD pipeline ```.github\workflows\actions.yml``` pushes changes, builds binaries, tests using ./tests.py, if all pass, commits, TBD: CREATES RELEASES
+1. Manual (locally): by running command with python installed: ```pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py``` then test with ```tests.py```
+2. Automatic (CI/CD): If making changes to this codebase and pushing  a Github CI/CD pipeline ```.github\workflows\actions.yml``` pushes changes, builds binaries, tests using ./tests.py, if all tests pass branch protection publishes commit.
 
 
 # Roadmap
