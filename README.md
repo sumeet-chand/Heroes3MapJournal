@@ -1,20 +1,11 @@
 
 # Description
 
-Alternative name: Heroes 3 Map Journal
-
-Free Heroes of Might and Magic 3 journal, Rate, like and share your favourite maps, record maps
-won and make notes on maps. Search maps by image instead of text.
-
-If you see a missing feature please suggest by contacting author: Sumeet Singh @ sumeet-singh.com/contactus
-
-
-# Features
-
-* Search maps by images, as well as names with different scenario filters
-* Like, filter and export favourite maps
-* Record won, and unplayed maps and add journal annotations and notes 
+A Heroes of Magic and Might franchise Map Journal and standalone Mod to
+* Like/Filter/Record/Make notes/Share/Export on won, unfinished and unplayed maps
+* Search maps by images with various scenario filters (as well as name) and search within map images
 * Launch your Heroes of Might and Magic game launcher directly to the map picked for a new way to play
+If you see a missing feature please suggest by contacting author Sumeet Singh @ sumeet-singh.com/contactus
 
 
 # Setup guide

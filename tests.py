@@ -7,29 +7,23 @@ import pyautogui
 
 # Check if running in a headless environment e.g. running in Githubs CI/CD headless platform
 running_headless = False
-if 'DISPLAY' not in os.environ:
-    running_headless = True
+
+# Check for Linux headless environment
+if sys.platform.startswith('linux'):
+    # Check if the display manager service is running
+    display_manager_status = subprocess.run(['systemctl', 'status', 'display-manager'], capture_output=True, text=True)
+    if 'Active: active' not in display_manager_status.stdout:
+        running_headless = True
 
 class TestGUI(unittest.TestCase):
 
     def test_binary_execution(self):
         """
         CI/CD workflow triggers on pushing this repo to upstream on Github.
-        Github actions will build binaries for Windows, MacOS, and Linux and run below command
-        
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
-        
-        (explanation: create one binary which wont start terminal on binary start e.g. like -mwindows, and embed the icon file
-        and place binary in dist folder online so that below tests.py relative filepaths can find them)
+        Github actions will build binaries for Windows, MacOS, and Linux and run below command which
+        checks for GUI and runs auto close tk window then returns result of pass 0 or fail 0.
 
-        You can test locally by running command above to generate bin in root ./ then run this test to confirm working.
-        
-        This test then runs to determine if each binary for each OS closes with exit code 0.
-
-        Because program runs in a loop awaiting a Tk window event close, the pyautogui library will simulate
-        manually closing app to see results of test.
-
-        As CI/CD pipeline runs jobs to build all OS, it will test to see which binary exists then run that executable test
+        Bin built with: pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
 
         Returns:
             Return code. 0 = test passed. 1 = test failed.
@@ -43,7 +37,6 @@ class TestGUI(unittest.TestCase):
         else:
             self.skipTest("Skipping test in headless environment")
             return
-
 
         # Start the binary
         process = subprocess.Popen([binary_path])
