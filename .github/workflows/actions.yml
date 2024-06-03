@@ -30,7 +30,6 @@ jobs:
       run: python tests.py
 
   build_and_test_macos:
-    needs: build_and_test_windows  # Wait for Windows job to complete successfully
     runs-on: macos-latest
 
     steps:
@@ -54,7 +53,6 @@ jobs:
       run: python tests.py
 
   build_and_test_linux:
-    needs: build_and_test_macos  # Wait for macOS job to complete successfully
     runs-on: ubuntu-latest
 
     steps:
@@ -77,11 +75,3 @@ jobs:
 
     - name: Run Linux Tests
       run: python tests.py
-
-    - name: Commit changes # if all tests pass then push changes
-      if: ${{ job.status == 'success' }}
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git commit -am "CI: Automated commit after successful tests"
-        git push
