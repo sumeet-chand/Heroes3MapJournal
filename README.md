@@ -8,17 +8,24 @@ A Heroes of Magic and Might franchise Map Journal and standalone Mod to
 If you see a missing feature please suggest by contacting author Sumeet Singh @ sumeet-singh.com/contactus
 
 
-# Setup guide
+# Setup
 
 1. No Installation required. Start the software/program/application: ```Heroes3MapLiker```
 2. Click ```rescan images``` the first time and wait for all the map images to download.
 3. Your ready to start using filters to find maps, like them, mark as won, enter notes, and more
 
 
+# Building
+
+There are 2 options to build
+
+1. locally by running command with python installed: ```pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py```
+2. If making changes to this codebase and pushing  a Github CI/CD pipeline ```.github\workflows\actions.yml``` pushes changes, builds binaries, tests using ./tests.py, if passes commits and finally: (TO BE INCLUDED CREATES RELEASES)
+
+
 # Roadmap
 
 0. Fix set background image
-1. Setup CI/CD
 2. Scrap metadada from URL and save it
 3. Like image button adds star icon in top right
 4. Setup filters
@@ -32,7 +39,7 @@ If you see a missing feature please suggest by contacting author Sumeet Singh @ 
 12. Expand to Heroes 1, 2 and 4
 13. Break up code getting too big, and test with test.py
 14. Find HD icons if possible, and make a function to scrap if from a safe repo
-15. Convert CI/CD pipeline to be create the binaries as releases, currently they are manual downloaded artefacts in Github actions in repo page
+15. Convert CI/CD pipeline to have new job of creating binary releases
 
 
 # License
