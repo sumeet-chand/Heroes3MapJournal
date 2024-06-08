@@ -34,11 +34,11 @@ class TestGUI(unittest.TestCase):
         if sys.platform == 'win32' and not running_headless:  # Check if running on Windows
             binary_path = 'Heroes3MapLiker.exe'
         elif sys.platform == 'darwin' and not running_headless:  # Check if running on macOS
-            binary_path = './Heroes3MapLiker'
+            binary_path = './Heroes3MapLiker_macos'
         elif sys.platform.startswith('linux') and not running_headless:  # Check if running on Linux and not headless
-            binary_path = './Heroes3MapLiker'
+            binary_path = './Heroes3MapLiker_linux'
         else:
-            self.skipTest("Skipping test in headless environment")
+            self.skipTest("Skipping test cannot find Operating System")
             return
 
         # Start the binary
