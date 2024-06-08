@@ -32,7 +32,7 @@ class TestGUI(unittest.TestCase):
             Return code. 0 = test passed. 1 = test failed.
         """
         if sys.platform == 'win32' and not running_headless:  # Check if running on Windows
-            binary_path = 'build/Heroes3MapLiker.exe'
+            binary_path = 'dist/Heroes3MapLiker.exe'
         elif sys.platform == 'darwin' and not running_headless:  # Check if running on macOS
             binary_path = 'build/Heroes3MapLiker_macos'
         elif sys.platform.startswith('linux') and not running_headless:  # Check if running on Linux and not headless
