@@ -26,7 +26,7 @@ jobs:
     - name: Build for Windows
       run: |
         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py
-        icacls "build" /grant:r everyone:(OI)(CI)F /T
+        icacls "build" /grant:r "Everyone:(OI)(CI)F" /T
         ls build
 
     - name: Run Windows Tests
