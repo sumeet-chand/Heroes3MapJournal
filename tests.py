@@ -22,6 +22,9 @@ class TestGUI(unittest.TestCase):
 
     def test_binary_execution(self):
         """
+
+        IMPORTANT: pyInstaller builds in /build but deploys binary in /dist
+
         CI/CD workflow triggers on pushing this repo to upstream on Github.
         Github actions will build binaries for Windows, MacOS, and Linux and run below command which
         checks for GUI and runs auto close tk window then returns result of pass 0 or fail 0.
@@ -34,9 +37,9 @@ class TestGUI(unittest.TestCase):
         if sys.platform == 'win32' and not running_headless:  # Check if running on Windows
             binary_path = 'dist/Heroes3MapLiker.exe'
         elif sys.platform == 'darwin' and not running_headless:  # Check if running on macOS
-            binary_path = 'build/Heroes3MapLiker_macos'
+            binary_path = 'dist/Heroes3MapLiker_macos'
         elif sys.platform.startswith('linux') and not running_headless:  # Check if running on Linux and not headless
-            binary_path = 'build/Heroes3MapLiker_linux'
+            binary_path = 'dist/Heroes3MapLiker_linux'
         else:
             self.skipTest("Skipping test cannot find Operating System")
             return
