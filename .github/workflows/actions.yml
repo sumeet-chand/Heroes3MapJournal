@@ -25,7 +25,7 @@ jobs:
 
     - name: Build for Windows
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=/Heroes3MapLiker Heroes3MapLiker.py
         ls
 
     - name: Run Windows Tests
@@ -57,7 +57,7 @@ jobs:
 
     - name: Build for macOS
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_macos Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=/Heroes3MapLiker_macos Heroes3MapLiker.py
         ls
 
     - name: Run macOS Tests
@@ -91,7 +91,7 @@ jobs:
 
     - name: Build for Linux
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_linux Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=/Heroes3MapLiker_linux Heroes3MapLiker.py
         ls
 
     - name: Run Linux Tests
