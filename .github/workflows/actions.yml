@@ -25,21 +25,16 @@ jobs:
 
     - name: Build for Windows
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_windows Heroes3MapLiker.py
-
-    - name: List current directory contents
-      run: |
-        echo "Contents of current directory:"
-        dir
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py
 
     - name: Run Windows Tests
-      run: python tests.py --platform windows
+      run: python tests.py
 
     - name: Upload windows artifact
       uses: actions/upload-artifact@v2
       with:
         name: windows-binaries
-        path: Heroes3MapLiker_windows.exe
+        path: Heroes3MapLiker.exe
       if: success()
 
   build_and_test_macos:
@@ -63,13 +58,8 @@ jobs:
       run: |
         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_macos Heroes3MapLiker.py
 
-    - name: List current directory contents
-      run: |
-        echo "Contents of current directory:"
-        ls
-
     - name: Run macOS Tests
-      run: python tests.py --platform macos
+      run: python tests.py
 
     - name: Upload mac artifact
       uses: actions/upload-artifact@v2
@@ -101,13 +91,8 @@ jobs:
       run: |
         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_linux Heroes3MapLiker.py
 
-    - name: List current directory contents
-      run: |
-        echo "Contents of current directory:"
-        ls
-
     - name: Run Linux Tests
-      run: python tests.py --platform linux
+      run: python tests.py
 
     - name: Upload linux artifact
       uses: actions/upload-artifact@v2
