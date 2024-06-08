@@ -25,7 +25,7 @@ jobs:
 
     - name: Build for Windows
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=/Heroes3MapLiker Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py
         ls
 
     - name: Run Windows Tests
@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: windows-binaries
-        path: Heroes3MapLiker.exe
+        path: build/Heroes3MapLiker.exe
       if: success()
 
   build_and_test_macos:
@@ -57,7 +57,7 @@ jobs:
 
     - name: Build for macOS
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=/Heroes3MapLiker_macos Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_macos Heroes3MapLiker.py
         ls
 
     - name: Run macOS Tests
@@ -67,7 +67,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: mac-binaries
-        path: Heroes3MapLiker_macos
+        path: build/Heroes3MapLiker_macos
       if: success()
 
   build_and_test_linux:
@@ -91,7 +91,7 @@ jobs:
 
     - name: Build for Linux
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=/Heroes3MapLiker_linux Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_linux Heroes3MapLiker.py
         ls
 
     - name: Run Linux Tests
@@ -101,5 +101,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: linux-binaries
-        path: Heroes3MapLiker_linux
+        path: build/Heroes3MapLiker_linux
       if: success()
