@@ -34,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: windows-binaries
-        path: dist/main.exe
+        path: main.exe
       if: success()
 
   build_and_test_macos:
@@ -65,7 +65,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: mac-binaries
-        path: dist/main
+        path: main
       if: success()
 
   build_and_test_linux:
@@ -98,5 +98,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: linux-binaries
-        path: dist/main
+        path: main
       if: success()
