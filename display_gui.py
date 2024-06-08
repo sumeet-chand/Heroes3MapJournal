@@ -28,20 +28,6 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     progress_label = None
     map_name_label = None
 
-    def set_background_image():
-        """
-        set background image of GUI
-
-        Returns:
-            None
-        """
-        # Create a label for the background image and place it behind other widgets
-        background_label = tk.Label(root, image=photo_images["page"])
-        background_label.place(relwidth=1, relheight=1)
-        # Ensure the background label stays behind other widgets
-        background_label.lower()
-    set_background_image()
-
     def toggle_control_panel():
         """
         Button to hide or show control panel triggers this function
@@ -199,6 +185,9 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     canvas = tk.Canvas(root, width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
     canvas.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
+    background_photo = ImageTk.PhotoImage(Image.open("assets/page.png").resize((SCREEN_WIDTH, SCREEN_HEIGHT)))
+    # canvas.create_image(0, 0, image=background_photo, anchor=tk.NW) - NOT SETTING BACKGROUND IMAGE NEEDS FIX
+
     scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=canvas.yview)
     scrollbar.grid(row=0, column=2, sticky="ns")
     canvas.configure(yscrollcommand=scrollbar.set)
@@ -218,7 +207,7 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     canvas.bind_all("<MouseWheel>", lambda event: on_mouse_wheel(event)) # bind event MouseWheel to function on_mouse_wheel
 
     frame = tk.Frame(canvas)
-    canvas.create_window((0, 0), window=frame, anchor=tk.NW)
+    canvas.create_window((0, 0), window=frame, anchor=tk.NW) # by embedding a frame in the canvas window it becomes scrollable
 
     load_images()
 
