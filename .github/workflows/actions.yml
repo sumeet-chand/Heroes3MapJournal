@@ -1,4 +1,4 @@
-name: Build, Test and Release Software
+name: test and release software
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
 
     - name: Build for Windows
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py # outputs binary to /dist
 
     - name: Run Windows Tests
       run: python tests.py
@@ -43,7 +43,7 @@ jobs:
         name: windows-zip
         path: dist/Heroes3MapLiker-windows.zip
 
-  build_and_test_mac:
+  build_and_test_macos:
     runs-on: macos-latest
     timeout-minutes: 30
 
@@ -62,7 +62,9 @@ jobs:
 
     - name: Build for macOS
       run: |
-        pyinstaller --onefile --windowed --icon=assets/view_earth.icns --name=Heroes3MapLiker Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_macos Heroes3MapLiker.py # outputs binary to /dist
+        chmod -R +rwx dist
+        ls -l dist
 
     - name: Run macOS Tests
       run: python tests.py
@@ -95,11 +97,13 @@ jobs:
 
     - name: Install dependencies
       run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-tk
         pip install Pillow requests pyinstaller pyautogui
 
     - name: Build for Linux
       run: |
-        pyinstaller --onefile --noconsole --name=Heroes3MapLiker Heroes3MapLiker.py
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_linux Heroes3MapLiker.py # outputs binary to /dist
 
     - name: Run Linux Tests
       run: python tests.py
@@ -117,8 +121,60 @@ jobs:
         name: linux-zip
         path: dist/Heroes3MapLiker-linux.zip
 
+  # build_and_test_android:
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 30
+
+  #   steps:
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v3
+
+  #   - name: Set up Python
+  #     uses: actions/setup-python@v2
+  #     with:
+  #       python-version: '3.9'
+
+  #   - name: Set Up JDK
+  #     uses: actions/setup-java@v3
+  #     with:
+  #       distribution: 'zulu'
+  #       java-version: '17'
+
+  #   - name: Install dependencies
+  #     run: |
+  #       sudo apt-get update
+  #       sudo apt-get install -y python3-tk
+  #       pip install Kivy buildozer Pillow requests pyinstaller pyautogui 
+
+  #   - name: Modify build.spec
+  #     run: | 
+  #       # First create .py code with Kivy framework. Fill details in file build.spec for cross-platform/.apk gen with buildozer
+  #       echo "title = Heroes3MapLiker" >> build.spec
+  #       echo "package.name = Heroes3MapLiker" >> build.spec
+  #       echo "source.dir = ./" >> build.spec
+  #       echo "requirements = kivy" >> build.spec
+  #       echo "android.permissions = INTERNET" >> build.spec
+  #       echo "version = 0.1" >> build.spec
+  #       echo "android.sdk = 21" >> build.spec
+  #       echo "p4a.branch = """ >> build.spec
+
+  #   - name: Build Android APK
+  #     run: |
+  #       buildozer init
+  #       buildozer -v android debug
+
+  #   - name: Set up Android emulator
+  #     run: |
+  #       adb install bin/Heroes3MapLiker.apk
+
+  #   - name: Run Android Tests
+  #     run: |
+  #       adb shell am start -n com.example.heroes3mapliker/.MainActivity \
+  #       adb shell input keyevent KEYCODE_HOME \
+  #       adb uninstall com.example.heroes3mapliker
+
   create_release:
-    needs: [build_and_test_windows, build_and_test_mac, build_and_test_linux]
+    needs: [build_and_test_windows, build_and_test_macos, build_and_test_linux]
     runs-on: ubuntu-latest
 
     steps:
