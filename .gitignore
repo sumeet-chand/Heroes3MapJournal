@@ -1,9 +1,11 @@
-# files to exclude in Git repo
+# Directories and Files named below will be excluded in up in remote Git (Github) repository (repo)
 
 # python build files
 __pycache__
 .mypy_cache
 build
+iOS_build
+android_build
 dist
 
 # user files

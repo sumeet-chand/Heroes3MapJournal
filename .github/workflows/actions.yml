@@ -32,10 +32,11 @@ jobs:
 
     - name: Package Windows artifacts
       run: |
-        mkdir -p dist/windows
-        cp dist/Heroes3MapLiker.exe dist/windows/
-        cp -r assets LICENSE dist/windows/
-        powershell -Command "Compress-Archive -Path dist/windows/* -DestinationPath dist/Heroes3MapLiker-windows.zip"
+        New-Item -ItemType Directory -Force -Path "dist/windows"
+        Copy-Item -Path "dist/Heroes3MapLiker.exe" -Destination "dist/windows/"
+        Copy-Item -Path "assets" -Destination "dist/windows/" -Recurse
+        Copy-Item -Path "README.md" -Destination "dist/windows/"
+        Compress-Archive -Path "dist/windows/*" -DestinationPath "dist/Heroes3MapLiker-windows.zip"
 
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v2
@@ -62,7 +63,7 @@ jobs:
 
     - name: Build for macOS
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_macos Heroes3MapLiker.py # outputs binary to /dist
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py # outputs binary to /dist
         chmod -R +rwx dist
         ls -l dist
 
@@ -103,7 +104,7 @@ jobs:
 
     - name: Build for Linux
       run: |
-        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker_linux Heroes3MapLiker.py # outputs binary to /dist
+        pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py # outputs binary to /dist
 
     - name: Run Linux Tests
       run: python tests.py

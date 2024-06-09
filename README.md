@@ -32,16 +32,15 @@ If you see a missing feature please suggest by contacting author Sumeet Singh @ 
 # Setup
 
 1. No Installation required. Start the software/program/application: ```Heroes3MapLiker```
-2. Click ```rescan images``` the first time and wait for all the map images to download.
-3. Your ready to start using filters to find maps, like them, mark as won, enter notes, and more
+2. Click ```rescan images``` the first time and wait for all the map images to download then wait for images to download and done.
 
 
-# Modding | Building | Testing
+# Building
 
 There are 2 options to build
 
 1. Manual (locally): by running command with python installed: ```pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py``` then test with ```tests.py```
-2. Automatic (CI/CD): If making changes to this codebase and pushing  a Github CI/CD pipeline ```.github\workflows\actions.yml``` pushes changes, builds binaries, tests using ./tests.py, if all tests pass branch protection publishes commit.
+2. Automatic (CI/CD): If making changes to this codebase and pushing  a Github CI/CD pipeline ```.github\workflows\actions.yml``` pushes changes, builds binaries, tests using ./tests.py, if all tests pass, creates releases for each OS
 
 
 # License
