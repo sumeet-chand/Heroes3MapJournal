@@ -74,7 +74,8 @@ jobs:
       run: |
         mkdir -p dist/macos
         cp dist/Heroes3MapLiker dist/macos/
-        cp -r assets LICENSE dist/macos/
+        cp -r assets dist/macos/
+        cp -r README.md dist/macos/
         zip -r dist/Heroes3MapLiker-macos.zip dist/macos/
 
     - name: Upload macOS artifact
@@ -114,6 +115,7 @@ jobs:
         mkdir -p dist/linux
         cp dist/Heroes3MapLiker dist/linux/
         cp -r assets dist/linux/
+        cp -r README.md dist/linux/
         zip -r dist/Heroes3MapLiker-linux.zip dist/linux/
 
     - name: Upload Linux artifact
