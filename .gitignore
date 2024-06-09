@@ -6,7 +6,6 @@ __pycache__
 build
 dist
 
-
 # user files
 overworld_map_images
 subterranean_map_images

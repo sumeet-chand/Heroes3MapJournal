@@ -1,26 +1,13 @@
 
 # Description
 
+v0.1 - Release date: August 1st 2024
+
 A Heroes of Magic and Might franchise Map Journal and standalone Mod to
 * Like/Filter/Record/Make notes/Share/Export on won, unfinished and unplayed maps
 * Search maps by images with various scenario filters (as well as name) and search within map images
 * Launch your Heroes of Might and Magic game launcher directly to the map picked for a new way to play
 If you see a missing feature please suggest by contacting author Sumeet Singh @ sumeet-singh.com/contactus
-
-
-# Setup
-
-1. No Installation required. Start the software/program/application: ```Heroes3MapLiker```
-2. Click ```rescan images``` the first time and wait for all the map images to download.
-3. Your ready to start using filters to find maps, like them, mark as won, enter notes, and more
-
-
-# Modding | Building | Testing
-
-There are 2 options to build
-
-1. Manual (locally): by running command with python installed: ```pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py``` then test with ```tests.py```
-2. Automatic (CI/CD): If making changes to this codebase and pushing  a Github CI/CD pipeline ```.github\workflows\actions.yml``` pushes changes, builds binaries, tests using ./tests.py, if all tests pass branch protection publishes commit.
 
 
 # Roadmap
@@ -40,6 +27,21 @@ There are 2 options to build
 13. Break up code getting too big, and test with test.py
 14. Find HD icons if possible, and make a function to scrap if from a safe repo
 15. Convert CI/CD pipeline to have new job of creating binary releases
+
+
+# Setup
+
+1. No Installation required. Start the software/program/application: ```Heroes3MapLiker```
+2. Click ```rescan images``` the first time and wait for all the map images to download.
+3. Your ready to start using filters to find maps, like them, mark as won, enter notes, and more
+
+
+# Modding | Building | Testing
+
+There are 2 options to build
+
+1. Manual (locally): by running command with python installed: ```pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py``` then test with ```tests.py```
+2. Automatic (CI/CD): If making changes to this codebase and pushing  a Github CI/CD pipeline ```.github\workflows\actions.yml``` pushes changes, builds binaries, tests using ./tests.py, if all tests pass branch protection publishes commit.
 
 
 # License
