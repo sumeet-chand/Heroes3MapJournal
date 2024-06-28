@@ -1,6 +1,8 @@
+# /Heroes3MapLiker.py
+
 import tkinter as tk
 from PIL import Image, ImageTk
-from typing import List, Dict
+from typing import Dict
 import os
 from display_gui import display_gui
 
@@ -11,10 +13,10 @@ IMAGE_WIDTH: int = 300
 IMAGE_HEIGHT: int = 300
 SPACING_X: int = 20
 SPACING_Y: int = 20
-base_dirs: list[str] = ["overworld_map_images", "subterranean_map_images"]
 root = tk.Tk()
 root.title("Heroes 3 Map Liker")
-image_directory = "assets"
+assets_directory = "assets"
+map_images_dir = os.path.join(assets_directory, "map_images")
 
 def set_window_icon():
     """
@@ -57,7 +59,7 @@ def load_asset_images(directory: str) -> Dict[str, ImageTk.PhotoImage]:
                 print(f"Error loading image {path}: {e}")
     return photo_images
 
-photo_images: Dict[str, ImageTk.PhotoImage] = load_asset_images(image_directory)
+photo_images: Dict[str, ImageTk.PhotoImage] = load_asset_images(assets_directory)
 
 def create_directories_if_missing():
     """
@@ -65,13 +67,12 @@ def create_directories_if_missing():
     Returns:
         None
     """
-    # create directories if they don't exist
-    for base_dir in base_dirs:
-        if not os.path.exists(base_dir):
-            os.makedirs(base_dir)
+    # create image directory if they don't exist
+    if not os.path.exists(map_images_dir):
+        os.makedirs(map_images_dir)
 
 set_window_icon()
 create_directories_if_missing()
-display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIGHT, SPACING_X, SPACING_Y, base_dirs, photo_images)
+display_gui(root, SCREEN_WIDTH, SCREEN_HEIGHT, COLS, IMAGE_WIDTH, IMAGE_HEIGHT, SPACING_X, SPACING_Y, map_images_dir, photo_images)
 
 root.mainloop()

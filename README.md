@@ -13,12 +13,12 @@ If you see a missing feature please suggest by contacting author Sumeet Singh @ 
 # Roadmap
 
 0. Fix set background image
-2. Scrap metadada from URL and save it
+2. Scrap metadada from URL and save it in JSON format
 3. Like image button adds star icon in top right
 4. Setup filters
 5. Allow taking journal notes for maps
 6. Maybe include a feature for sorting between campaign maps
-7. Button to list liked maps for which can be highlighted to copy outside app
+7. Export liked maps button
 8. Button to reset liked images, with confirmation popup
 9. Allow marking map won (with sword icon in bottom left) and filter by them, and remaining unwon
 10. Add option to link to Heroes 3 launcher/original client to bring up in game scenario selection

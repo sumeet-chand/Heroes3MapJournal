@@ -1,3 +1,5 @@
+# /display_gui.py
+
 import tkinter as tk
 from PIL import Image, ImageTk
 from typing import Dict
@@ -6,7 +8,7 @@ import urllib.parse
 import platform
 from download_images import download_images
 
-def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WIDTH: int, IMAGE_HEIGHT: int, SPACING_X: int, SPACING_Y: int, base_dirs: list[str], photo_images: Dict[str, ImageTk.PhotoImage]):
+def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WIDTH: int, IMAGE_HEIGHT: int, SPACING_X: int, SPACING_Y: int, map_image_dir: str, photo_images: Dict[str, ImageTk.PhotoImage]):
     """
     start toolkit interface (Tkinter) GUI Window
 
@@ -52,7 +54,7 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
         """
         progress_label.config(text="Rescanning images...")
         root.update()  # Force update of the GUI
-        download_images(base_dirs[0], base_dirs[1], update_progress)
+        download_images(map_image_dir, update_progress)
         load_images()
 
     def update_progress(status):
@@ -86,19 +88,19 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
         for widget in frame.winfo_children():
             widget.destroy()
 
-        for base_dir in base_dirs:
-            for entry in os.listdir(base_dir):
-                path = os.path.join(base_dir, entry)
-                if os.path.isfile(path) and path.endswith('.png'):
-                    image = Image.open(path)
-                    image = image.resize((IMAGE_WIDTH, IMAGE_HEIGHT))
-                    photo = ImageTk.PhotoImage(image)
-                    label = tk.Label(frame, image=photo)
-                    label.image = photo
-                    label.bind("<Button-1>", lambda event, map_name=os.path.splitext(entry)[0]: show_map_name(event, map_name))
-                    row = len(frame.grid_slaves()) // COLS
-                    col = len(frame.grid_slaves()) % COLS
-                    label.grid(row=row, column=col, padx=SPACING_X, pady=SPACING_Y)
+        # Load images from map_images_dir
+        for entry in os.listdir(map_image_dir):
+            path = os.path.join(map_image_dir, entry)
+            if os.path.isfile(path) and path.endswith('.png'):
+                image = Image.open(path)
+                image = image.resize((IMAGE_WIDTH, IMAGE_HEIGHT))
+                photo = ImageTk.PhotoImage(image)
+                label = tk.Label(frame, image=photo)
+                label.image = photo
+                label.bind("<Button-1>", lambda event, map_name=os.path.splitext(entry)[0]: show_map_name(event, map_name))
+                row = len(frame.grid_slaves()) // COLS
+                col = len(frame.grid_slaves()) % COLS
+                label.grid(row=row, column=col, padx=SPACING_X, pady=SPACING_Y)
 
         update_scroll_region()
 

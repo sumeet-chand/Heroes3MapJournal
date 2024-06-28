@@ -1,10 +1,9 @@
-import urllib.parse
 import os
 import requests
+import urllib.parse # for converting special characters when download e.g. Tovar%27s to Tovar's
 import re
-import platform
 
-def download_images(base_dir: str, subterranean_dir: str, progress_callback=None):
+def download_images(map_images_dir: str, progress_callback=None):
     """
     Scrap and download all map images, can be targeted to any new repo holding
     Heroes 3 map data/images. So that if any site goes down, this can be tweaked
@@ -12,17 +11,14 @@ def download_images(base_dir: str, subterranean_dir: str, progress_callback=None
 
     Args
     
-        base_dir (str): folder path for overworld images
-        subterranean_dir (str): folder path for overworld images
+        map_images_dir (str): folder path for map images
         progress_callback - for GUI widget label to callback progress data on how many maps scanned/remaining
 
     Returns:
         None
     """
-    if not os.path.exists(base_dir):
-        os.makedirs(base_dir)
-    if not os.path.exists(subterranean_dir):
-        os.makedirs(subterranean_dir)
+    if not os.path.exists(map_images_dir):
+        os.makedirs(map_images_dir)
 
     url: str = "https://heroes.thelazy.net/index.php/List_of_maps"
     response = requests.get(url)
@@ -58,20 +54,12 @@ def download_images(base_dir: str, subterranean_dir: str, progress_callback=None
         img_tags = re.findall(r'<img.+?src="([^"]+)"', image_response.text)
         if img_tags:
             for img_tag in img_tags:
-                if "subterranean" not in img_tag:
-                    match = re.search(r'/images/(.*?)map_auto.png', img_tag)
-                    if match:
-                        download_link: str = "https://heroes.thelazy.net/images/" + match.group(1) + "map_auto.png"
-                        download_link = download_link.replace("/thumb", "")
-                        filename: str = os.path.join(base_dir, os.path.basename(download_link))
-                        download_image(download_link, filename)
-                else:
-                    match = re.search(r'/images/(.*?)map_auto.png', img_tag)
-                    if match:
-                        download_link = "https://heroes.thelazy.net/images/" + match.group(1) + "map_auto.png"
-                        download_link = download_link.replace("/thumb", "")
-                        filename = os.path.join(subterranean_dir, os.path.basename(download_link))
-                        download_image(download_link, filename)
+                match = re.search(r'/images/(.*?)map_auto.png', img_tag)
+                if match:
+                    download_link: str = "https://heroes.thelazy.net/images/" + match.group(1) + "map_auto.png"
+                    download_link = download_link.replace("/thumb", "")
+                    filename: str = os.path.basename(urllib.parse.unquote(download_link))
+                    download_image(download_link, map_images_dir, filename)
         else:
             print("No download link found.")
 
@@ -79,27 +67,27 @@ def download_images(base_dir: str, subterranean_dir: str, progress_callback=None
     if progress_callback:
         progress_callback("Rescanning complete!")
 
-def download_image(image_url: str, save_path: str):
+def download_image(image_url: str, save_path: str, filename: str):
     """
-    Scrap and download all map images, can be targetted to any new repo holding
-    Heroes 3 map data/images. So that if any site goes down, this can be tweaked
-    to point to the newest online repo to always pull images when rescan button is clicked
+    Download an image from the given URL and save it to the specified path with the given filename.
 
     Args
     
-        image_url (str): folder path for overworld images
-        save_path (str): folder path for overworld images
+        image_url (str): URL of the image to download
+        save_path (str): Path where the image should be saved
+        filename (str): Name of the file to save as
 
     Returns:
         None
     """
-    if os.path.exists(save_path):
-        print(f"Image already exists: {save_path}")
+    if os.path.exists(os.path.join(save_path, filename)):
+        print(f"Image already exists: {os.path.join(save_path, filename)}")
     else:
         try:
             response = requests.get(image_url)
-            with open(save_path, 'wb') as f:
+            with open(os.path.join(save_path, filename), 'wb') as f:
                 f.write(response.content)
-            print(f"Image downloaded: {save_path}")
+            print(f"Image downloaded: {os.path.join(save_path, filename)}")
         except Exception as e:
             print(f"Failed to download image from {image_url}: {str(e)}")
+
