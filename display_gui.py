@@ -1,6 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-from typing import List, Dict
+from typing import Dict
 import os
 import urllib.parse
 import platform
@@ -220,9 +220,13 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     control_frame = tk.Frame(root)
     control_frame.grid(row=1, column=0, columnspan=5, sticky="ew")
 
-    # row 0 - control panel visibility button
+    # root frame - row 0 - control panel visibility button
     toggle_button = tk.Button(root, text="Hide Settings", image=photo_images["book_closed"], compound="right", command=toggle_control_panel)
     toggle_button.grid(row=0, column=0, sticky="ne", padx=2, pady=2)
+
+    # root frame - row 1  - Map name label
+    map_name_label = tk.Label(root, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W, font=("Arial", 14))
+    map_name_label.grid(row=1, column=0, sticky="ne", padx=2, pady=2)
 
     # row 1 - Like map button
     like_button = tk.Button(control_frame, text="like", command=like_image)
@@ -555,10 +559,6 @@ def display_gui(root, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, COLS: int, IMAGE_WI
     # row 20 - Progress label
     progress_label = tk.Label(control_frame, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W, font=("Arial", 12))
     progress_label.grid(row=20, column=0, padx=2, pady=2, sticky="ew", columnspan=5)
-
-    # row 21 - Map name label
-    map_name_label = tk.Label(control_frame, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W, font=("Arial", 14))
-    map_name_label.grid(row=21, column=0, padx=2, pady=2, sticky="ew", columnspan=5)
 
     # Configure column resizing behavior for the control frame
     # if there are 7 checkboxes across 7 columns in a single row

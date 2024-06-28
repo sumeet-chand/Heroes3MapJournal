@@ -1,7 +1,7 @@
 
 # Description
 
-v0.1 - Release date: August 1st 2024
+v0.1 - Release date: Jan 1st 2025
 
 A Heroes of Magic and Might franchise Map Journal and standalone Mod to
 * Like/Filter/Record/Make notes/Share/Export on won, unfinished and unplayed maps
