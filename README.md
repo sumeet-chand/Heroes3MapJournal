@@ -1,7 +1,7 @@
 
 # Description
 
-v0.1 - Release date: Jan 1st 2025
+v0.1 - Release date: TBA - I have developed carpal tunnel and typing hurts. I may pay someone one to finish one day. be patient please.
 
 A Heroes of Magic and Might franchise Map Journal and standalone Mod to
 * Like/Filter/Record/Make notes/Share/Export on won, unfinished and unplayed maps
