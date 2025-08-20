@@ -1,9 +1,12 @@
 
 # Description
 
-v0.1 - Release date: Jan 1st 2025
+Author: Sumeet Singh
+Dated: 20th Aprl 2025
+Version: 0.1 - Release date: TBA
+License: This project is intended for personal, non-commercial use only. All asset images remain the property of the original owners of Heroes of Might and Magic 3. No endorsement of piracy or commercial use is intended. This software is provided as a hobby project for fans of the game.
 
-A Heroes of Magic and Might franchise Map Journal and standalone Mod to
+A Heroes of Might and Magic 3 software to download map images, rate them and share notes with others
 * Like/Filter/Record/Make notes/Share/Export on won, unfinished and unplayed maps
 * Search maps by images with various scenario filters (as well as name) and search within map images
 * Launch your Heroes of Might and Magic game launcher directly to the map picked for a new way to play
@@ -24,7 +27,7 @@ If you see a missing feature please suggest by contacting author Sumeet Singh @ 
 10. Add option to link to Heroes 3 launcher/original client to bring up in game scenario selection
 11. Android/iOS app
 12. Expand to Heroes 1, 2 and 4
-13. Break up code getting too big, and test with test.py
+13. Fix test.py
 14. Find HD icons if possible, and make a function to scrap if from a safe repo
 15. Convert CI/CD pipeline to have new job of creating binary releases
 
