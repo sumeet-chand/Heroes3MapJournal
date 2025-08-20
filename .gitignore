@@ -4,8 +4,6 @@
 __pycache__
 .mypy_cache
 build
-iOS_build
-android_build
 dist
 
 # user files

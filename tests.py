@@ -2,7 +2,15 @@ import unittest
 import subprocess
 import sys
 import time
+import tkinter as tk
+from PIL import Image, ImageTk
+from typing import Dict, Callable, Optional
 import os
+import platform # for detecting the host OS
+import requests # download the images
+import urllib.parse # for converting special characters when download e.g. Tovar%27's to Tovar's
+import re # for regex
+from bs4 import BeautifulSoup # for parsing HTML content
 
 # Check if running in a headless environment e.g. running in Githubs CI/CD headless platform
 running_headless = False
@@ -29,7 +37,7 @@ class TestGUI(unittest.TestCase):
         Github actions will build binaries for Windows, MacOS, and Linux and run below command which
         checks for GUI and runs auto close tk window then returns result of pass 0 or fail 0.
 
-        Bin built with: pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. Heroes3MapLiker.py
+        Bin built with: pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. main.py
 
         Returns:
             Return code. 0 = test passed. 1 = test failed.
