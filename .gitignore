@@ -5,6 +5,7 @@ __pycache__
 .mypy_cache
 build
 dist
+main.spec
 
 # user files
 map_images
