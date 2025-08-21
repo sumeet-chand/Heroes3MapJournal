@@ -25,7 +25,7 @@
 
 #     - name: Build for Windows
 #       run: |
-#         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py # outputs binary to /dist
+#         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapJournal main.py # outputs binary to /dist
 
 #     - name: Run Windows Tests
 #       run: python tests.py
@@ -33,16 +33,16 @@
 #     - name: Package Windows artifacts
 #       run: |
 #         New-Item -ItemType Directory -Force -Path "dist/windows"
-#         Copy-Item -Path "dist/Heroes3MapLiker.exe" -Destination "dist/windows/"
+#         Copy-Item -Path "dist/Heroes3MapJournal.exe" -Destination "dist/windows/"
 #         Copy-Item -Path "assets" -Destination "dist/windows/" -Recurse
 #         Copy-Item -Path "README.md" -Destination "dist/windows/"
-#         Compress-Archive -Path "dist/windows/*" -DestinationPath "dist/Heroes3MapLiker-windows.zip"
+#         Compress-Archive -Path "dist/windows/*" -DestinationPath "dist/Heroes3MapJournal-windows.zip"
 
 #     - name: Upload Windows artifact
 #       uses: actions/upload-artifact@v4
 #       with:
 #         name: windows-zip
-#         path: dist/Heroes3MapLiker-windows.zip
+#         path: dist/Heroes3MapJournal-windows.zip
 
 #   build_and_test_macos:
 #     runs-on: macos-latest
@@ -63,7 +63,7 @@
 
 #     - name: Build for macOS
 #       run: |
-#         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py # outputs binary to /dist
+#         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapJournal main.py # outputs binary to /dist
 #         chmod -R +rwx dist
 #         ls -l dist
 
@@ -73,16 +73,16 @@
 #     - name: Package macOS artifacts
 #       run: |
 #         mkdir -p dist/macos
-#         cp dist/Heroes3MapLiker dist/macos/
+#         cp dist/Heroes3MapJournal dist/macos/
 #         cp -r assets dist/macos/
 #         cp -r README.md dist/macos/
-#         zip -r dist/Heroes3MapLiker-macos.zip dist/macos/
+#         zip -r dist/Heroes3MapJournal-macos.zip dist/macos/
 
 #     - name: Upload macOS artifact
 #       uses: actions/upload-artifact@v4
 #       with:
 #         name: macos-zip
-#         path: dist/Heroes3MapLiker-macos.zip
+#         path: dist/Heroes3MapJournal-macos.zip
 
 #   build_and_test_linux:
 #     runs-on: ubuntu-latest
@@ -105,7 +105,7 @@
 
 #     - name: Build for Linux
 #       run: |
-#         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapLiker Heroes3MapLiker.py # outputs binary to /dist
+#         pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --name=Heroes3MapJournal main.py # outputs binary to /dist
 
 #     - name: Run Linux Tests
 #       run: python tests.py
@@ -113,16 +113,16 @@
 #     - name: Package Linux artifacts
 #       run: |
 #         mkdir -p dist/linux
-#         cp dist/Heroes3MapLiker dist/linux/
+#         cp dist/Heroes3MapJournal dist/linux/
 #         cp -r assets dist/linux/
 #         cp -r README.md dist/linux/
-#         zip -r dist/Heroes3MapLiker-linux.zip dist/linux/
+#         zip -r dist/Heroes3MapJournal-linux.zip dist/linux/
 
 #     - name: Upload Linux artifact
 #       uses: actions/upload-artifact@v4
 #       with:
 #         name: linux-zip
-#         path: dist/Heroes3MapLiker-linux.zip
+#         path: dist/Heroes3MapJournal-linux.zip
 
 #   # build_and_test_android:
 #   #   runs-on: ubuntu-latest
@@ -152,8 +152,8 @@
 #   #   - name: Modify build.spec
 #   #     run: | 
 #   #       # First create .py code with Kivy framework. Fill details in file build.spec for cross-platform/.apk gen with buildozer
-#   #       echo "title = Heroes3MapLiker" >> build.spec
-#   #       echo "package.name = Heroes3MapLiker" >> build.spec
+#   #       echo "title = Heroes3MapJournal" >> build.spec
+#   #       echo "package.name = Heroes3MapJournal" >> build.spec
 #   #       echo "source.dir = ./" >> build.spec
 #   #       echo "requirements = kivy" >> build.spec
 #   #       echo "android.permissions = INTERNET" >> build.spec
@@ -168,13 +168,13 @@
 
 #   #   - name: Set up Android emulator
 #   #     run: |
-#   #       adb install bin/Heroes3MapLiker.apk
+#   #       adb install bin/Heroes3MapJournal.apk
 
 #   #   - name: Run Android Tests
 #   #     run: |
-#   #       adb shell am start -n com.example.heroes3mapliker/.MainActivity \
+#   #       adb shell am start -n com.example.Heroes3MapJournal/.MainActivity \
 #   #       adb shell input keyevent KEYCODE_HOME \
-#   #       adb uninstall com.example.heroes3mapliker
+#   #       adb uninstall com.example.Heroes3MapJournal
 
 #   create_release:
 #     needs: [build_and_test_windows, build_and_test_macos, build_and_test_linux]
@@ -220,8 +220,8 @@
 #   #       GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 #   #     with:
 #   #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-#   #       asset_path: ./dist/Heroes3MapLiker-windows.zip
-#   #       asset_name: Heroes3MapLiker-windows.zip
+#   #       asset_path: ./dist/Heroes3MapJournal-windows.zip
+#   #       asset_name: Heroes3MapJournal-windows.zip
 #   #       asset_content_type: application/zip
 
 #   #   - name: Upload macOS Release Asset
@@ -230,8 +230,8 @@
 #   #       GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 #   #     with:
 #   #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-#   #       asset_path: ./dist/Heroes3MapLiker-macos.zip
-#   #       asset_name: Heroes3MapLiker-macos.zip
+#   #       asset_path: ./dist/Heroes3MapJournal-macos.zip
+#   #       asset_name: Heroes3MapJournal-macos.zip
 #   #       asset_content_type: application/zip
 
 #   #   - name: Upload Linux Release Asset
@@ -240,6 +240,6 @@
 #   #       GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 #   #     with:
 #   #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-#   #       asset_path: ./dist/Heroes3MapLiker-linux.zip
-#   #       asset_name: Heroes3MapLiker-linux.zip
+#   #       asset_path: ./dist/Heroes3MapJournal-linux.zip
+#   #       asset_name: Heroes3MapJournal-linux.zip
 #   #       asset_content_type: application/zip
