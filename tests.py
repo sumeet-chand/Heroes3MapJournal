@@ -2,29 +2,46 @@ import unittest
 import subprocess
 import sys
 import time
-import tkinter as tk
-from PIL import Image, ImageTk
-from typing import Dict, Callable, Optional
+import pyautogui
 import os
-import platform # for detecting the host OS
-import requests # download the images
-import urllib.parse # for converting special characters when download e.g. Tovar%27's to Tovar's
-import re # for regex
-from bs4 import BeautifulSoup # for parsing HTML content
 
-# Check if running in a headless environment e.g. running in Githubs CI/CD headless platform
-running_headless = False
+def is_headless():
+    """
+    Check if running in a headless environment (e.g. GitHub CI/CD).
+    On Linux: checks if display-manager is active.
+    On macOS: checks if running under SSH or if DISPLAY variable is missing.
+    On Windows: checks if running under SSH or if no interactive desktop session.
 
-# Check for Linux headless environment
-if sys.platform.startswith('linux'):
-    # Check if the display manager service is running
-    display_manager_status = subprocess.run(['systemctl', 'status', 'display-manager'], capture_output=True, text=True)
-    if 'Active: active' not in display_manager_status.stdout:
-        running_headless = True
-
-# pyautogui requires a os.DISPLAY variable, so if it's a headless display it wont set that variable hence it will break script
-if not running_headless:
-    import pyautogui
+    Returns:
+        True if running headless, False otherwise.
+    """
+    if sys.platform.startswith('linux'):
+        display_manager_status = subprocess.run(
+            ['systemctl', 'status', 'display-manager'],
+            capture_output=True, text=True
+        )
+        if 'Active: active' not in display_manager_status.stdout:
+            return True
+        if not os.environ.get('DISPLAY'):
+            return True
+    elif sys.platform == 'darwin':
+        # On macOS, check for SSH or missing DISPLAY
+        if os.environ.get('SSH_CONNECTION'):
+            return True
+        if not os.environ.get('DISPLAY'):
+            return True
+    elif sys.platform == 'win32':
+        # On Windows, check for SSH or if not running in an interactive session
+        if os.environ.get('SSH_CONNECTION'):
+            return True
+        try:
+            import ctypes
+            user32 = ctypes.windll.user32
+            if not user32.GetForegroundWindow():
+                return True
+        except Exception:
+            return True
+    return False
 
 class TestGUI(unittest.TestCase):
 
@@ -33,23 +50,26 @@ class TestGUI(unittest.TestCase):
 
         IMPORTANT: pyInstaller builds in /build but deploys binary in /dist
 
-        CI/CD workflow triggers on pushing this repo to upstream on Github.
-        Github actions will build binaries for Windows, MacOS, and Linux and run below command which
-        checks for GUI and runs auto close tk window then returns result of pass 0 or fail 0.
+        Included GitHub Actions CI/CD workflow on pushes to  upstream repository in Github.
+        will build binaries for Windows, MacOS, and Linux then run tests.py. Tests.py then
+        checks non headless displays GUI and runs auto close tk window against the binaries
+        to simulate a user running the executable in production. The output is a success code
+        0 pass, and 1 failure.
 
         Bin built with: pyinstaller --onefile --noconsole --icon=assets/view_earth.ico --distpath=. main.py
 
         Returns:
             Return code. 0 = test passed. 1 = test failed.
         """
-        if sys.platform == 'win32' and not running_headless:  # Check if running on Windows
-            binary_path = 'dist/Heroes3MapLiker.exe'
-        elif sys.platform == 'darwin' and not running_headless:  # Check if running on macOS
-            binary_path = 'dist/Heroes3MapLiker'
-        elif sys.platform.startswith('linux') and not running_headless:  # Check if running on Linux and not headless
-            binary_path = 'dist/Heroes3MapLiker'
+        # Determine binary path based on platform
+        if sys.platform == 'win32':
+            binary_path = 'dist/Heroes3MapJournal.exe'
+        elif sys.platform == 'darwin':
+            binary_path = 'dist/Heroes3MapJournal-macos'
+        elif sys.platform.startswith('linux'):
+            binary_path = 'dist/Heroes3MapJournal-linux'
         else:
-            self.skipTest("Skipping test cannot find Operating System")
+            self.skipTest("Skipping test: cannot find Operating System")
             return
 
         # Start the binary
@@ -58,13 +78,16 @@ class TestGUI(unittest.TestCase):
         # Wait a few seconds to ensure the GUI is fully loaded
         time.sleep(5)
 
-        # Close the GUI application using pyautogui
+        # Close the GUI application using pyautogui if not headless
         if sys.platform == 'win32':
-            pyautogui.hotkey('alt', 'f4')  # On Windows
+            if not is_headless():
+                pyautogui.hotkey('alt', 'f4')  # On Windows
         elif sys.platform == 'darwin':
-            pyautogui.hotkey('command', 'q')  # On macOS
+            if not is_headless():
+                pyautogui.hotkey('command', 'q')  # On macOS
         elif sys.platform.startswith('linux'):
-            pyautogui.hotkey('alt', 'f4')  # On Linux (may vary depending on the window manager)
+            if not is_headless():
+                pyautogui.hotkey('alt', 'f4')  # On Linux (may vary depending on the window manager)
 
         # Wait for the process to terminate
         try:
