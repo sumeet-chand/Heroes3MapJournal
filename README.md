@@ -1,7 +1,7 @@
 
 # Description
 
-Author: Sumeet Singh
+Author: Sumeet Chand
 Dated: 20th Aprl 2025
 Version: 0.1 - Release date: TBA
 License: This project is intended for personal, non-commercial use only. All asset images remain the property of the original owners of Heroes of Might and Magic 3. No endorsement of piracy or commercial use is intended. This software is provided as a hobby project for fans of the game.
